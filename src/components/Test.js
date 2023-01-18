@@ -40,15 +40,6 @@ function Test() {
           <h3>레벨 : {summonerInfo.summonerLevel}</h3>
         </div>
       )}
-      {summonerInfo.name === "지팡이든고라니" ? (
-        <h1
-          style={{
-            color: "red",
-          }}
-        >
-          브론즈
-        </h1>
-      ) : null}
     </div>
   );
 }

@@ -3,10 +3,16 @@
   width: 100%;
   height: 40px;
   border-bottom: 1px solid #4171d6;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+  padding-right: 15px;
+  box-sizing: border-box;
 }
 
 .header-logo {
   color: white;
-  font-size: 2rem;
-  font-weight: 900;
+  font-size: 20px;
+  font-weight: 800;
+  text-decoration-line: none;
 }

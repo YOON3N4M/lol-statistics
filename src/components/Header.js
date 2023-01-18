@@ -1,11 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../css/Header.css";
 
 function Header() {
   return (
     <>
       <div className="header-box">
-        <span className="header-logo">OP.GG</span>
+        <Link style={{ textDecoration: "none" }} to="/">
+          <h1 className="header-logo">OP.GG</h1>
+        </Link>
       </div>
     </>
   );

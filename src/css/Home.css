@@ -21,9 +21,54 @@
   font-size: 10rem;
   font-weight: 900;
 }
-.input-box {
+.search-box {
   width: 800px;
   height: 60px;
   background-color: white;
   border-radius: 30px;
+  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 19%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.region-option {
+  width: 234px;
+  height: 40px;
+  padding-left: 32px;
+  padding-right: 8px;
+  margin-right: 8px;
+}
+
+.input-box {
+  width: 420px;
+  height: 40px;
+}
+.search-btn {
+  color: #5383e8;
+  font-size: 25px;
+  font-weight: 700;
+  margin-right: 30px;
+  cursor: pointer;
+}
+.label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+.selected-region {
+  color: gray;
+  font-size: 14px;
+}
+.line {
+  border-left: solid 1px gray;
+  height: 30px;
+  opacity: 30%;
+}
+.search-input {
+  width: 100%;
+  border: 0px;
+  outline: none;
+  font-size: 14px;
 }

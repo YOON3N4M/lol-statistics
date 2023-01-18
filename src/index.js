@@ -2,8 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./css/index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./routes/Home";
+import { legacy_createStore as createStore } from "redux";
 import { Provider } from "react-redux";
+import Home from "./routes/Home";
+import Summoners from "./routes/Summoners";
+import rootReducer from "./modules/index";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 const router = createBrowserRouter([
   {
@@ -11,9 +15,15 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/:id",
-    element: null,
+    path: "/:summonerName",
+    element: <Summoners />,
   },
 ]);
+const store = createStore(rootReducer, composeWithDevTools());
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<RouterProvider router={router} />);
+root.render(
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
+);
