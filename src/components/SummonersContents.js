@@ -3,59 +3,62 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setSummonersInfo,
   clearSummonersInfo,
-  setLoadingTrue,
-  setLoadingFalse,
+  setSummonersLoadingTrue,
+  setSummonersLoadingFalse,
   setLeagueInfo,
+  setLeagueLoadingTrue,
+  setLeagueLoadingFalse,
 } from "../modules/sumonnersInfo";
 import "../css/SummonersContents.css";
 
 const SummonersContents = () => {
   const dispatch = useDispatch();
-  const { summonersInfo, loading, userName, leagueInfo } = useSelector(
-    (state) => ({
-      summonersInfo: state.summonersInfo.summonersInfo,
-      loading: state.summonersInfo.loading,
-      userName: state.summonersInfo.userName,
-      leagueInfo: state.summonersInfo.leagueInfo,
-    })
-  );
-  const API_KEY = "RGAPI-4dda0427-4f3b-40e3-bb07-377be7533581";
+  const {
+    summonersInfo,
+    summonersLoading,
+    userName,
+    leagueInfo,
+    leagueLoading,
+  } = useSelector((state) => ({
+    summonersInfo: state.summonersInfo.summonersInfo,
+    summonersLoading: state.summonersInfo.summonersLoading,
+    userName: state.summonersInfo.userName,
+    leagueInfo: state.summonersInfo.leagueInfo,
+    leagueLoading: state.summonersInfo.leagueLoading,
+  }));
+  const API_KEY = "RGAPI-8a9b5d19-a835-4cfe-b16e-fc119d59e7a0";
 
   useEffect(() => {
-    dispatch(setLoadingTrue());
+    dispatch(setSummonersLoadingTrue());
+    dispatch(setLeagueLoadingTrue());
     fetch(
       `https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${userName}?api_key=${API_KEY}`
     )
       .then((response) => response.json())
       .then((json) => {
         dispatch(setSummonersInfo(json));
+        dispatch(setSummonersLoadingFalse());
       });
   }, []);
 
   useEffect(() => {
-    if (Object.keys(summonersInfo).length !== 0) {
+    if (summonersLoading === false) {
       fetch(
         `https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonersInfo.id}?api_key=${API_KEY}`
       )
         .then((response) => response.json())
-        .then((json) => dispatch(setLeagueInfo(json[0])));
+        .then((json) => dispatch(setLeagueInfo(json[0])))
+        .then(() => {
+          setTimeout(() => {
+            dispatch(setLeagueLoadingFalse());
+          }, 500);
+        });
     }
-  }, [summonersInfo]);
-
-  useEffect(() => {
-    if (
-      Object.keys(summonersInfo).length !== 0 &&
-      Object.keys(leagueInfo).length !== 0
-    ) {
-      dispatch(setLoadingFalse());
-    }
-  }, [leagueInfo]);
-
-  console.log();
+  }, [summonersLoading]);
 
   return (
     <>
-      {loading === false ? (
+      {summonersLoading === false && leagueLoading === false ? (
         <>
           {" "}
           <div className="contents-header">

@@ -1,22 +1,30 @@
 const SET_USERNAME = "SET_USERNAME";
 const SET_SUMMONERS_INFO = "SET_SUMMONERS_INFO";
 const CLEAR_SUMMONERS_INFO = "CLEAR_SUMMONERS_INFO";
-const SET_LOADING_TRUE = "SET_LOADING_TRUE";
-const SET_LOADING_FALSE = "SET_LOADING_FALSE";
+const SET_SUMMONERS_LOADING_TRUE = "SET_LOADING_TRUE";
+const SET_SUMMONERS_LOADING_FALSE = "SET_LOADING_FALSE";
 const SET_LEAGUE_INFO = "SET_LEAGUE_INFO";
+const SET_LEAGUE_LOADING_TRUE = "SET_LEAGUE_LOADING_TRUE";
+const SET_LEAGUE_LOADING_FALSE = "SET_LEAGUE_LOADING_FALSE";
 
 export const setUserName = (userName) => ({ type: SET_USERNAME, userName });
 export const setSummonersInfo = (data) => ({ type: SET_SUMMONERS_INFO, data });
 export const clearSummonersInfo = () => ({ type: CLEAR_SUMMONERS_INFO });
-export const setLoadingTrue = () => ({ type: SET_LOADING_TRUE });
-export const setLoadingFalse = () => ({ type: SET_LOADING_FALSE });
+export const setSummonersLoadingTrue = () => ({
+  type: SET_SUMMONERS_LOADING_TRUE,
+});
+export const setSummonersLoadingFalse = () => ({
+  type: SET_SUMMONERS_LOADING_FALSE,
+});
 export const setLeagueInfo = (data) => ({ type: SET_LEAGUE_INFO, data });
-
+export const setLeagueLoadingTrue = () => ({ type: SET_LEAGUE_LOADING_TRUE });
+export const setLeagueLoadingFalse = () => ({ type: SET_LEAGUE_LOADING_FALSE });
 const initialState = {
   userName: "",
   summonersInfo: {},
-  loading: true,
+  summonersLoading: true,
   leagueInfo: {},
+  leagueLoading: true,
 };
 
 export default function summonersInfo(state = initialState, action) {
@@ -36,20 +44,30 @@ export default function summonersInfo(state = initialState, action) {
         ...state,
         summonersInfo: {},
       };
-    case SET_LOADING_TRUE:
+    case SET_SUMMONERS_LOADING_TRUE:
       return {
         ...state,
-        loading: true,
+        summonersLoading: true,
       };
-    case SET_LOADING_FALSE:
+    case SET_SUMMONERS_LOADING_FALSE:
       return {
         ...state,
-        loading: false,
+        summonersLoading: false,
       };
     case SET_LEAGUE_INFO:
       return {
         ...state,
         leagueInfo: action.data,
+      };
+    case SET_LEAGUE_LOADING_TRUE:
+      return {
+        ...state,
+        leagueLoading: true,
+      };
+    case SET_LEAGUE_LOADING_FALSE:
+      return {
+        ...state,
+        leagueLoading: false,
       };
     default:
       return state;
