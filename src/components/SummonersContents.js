@@ -5,31 +5,22 @@ import {
   clearSummonersInfo,
   setLoadingTrue,
   setLoadingFalse,
+  setLeagueInfo,
 } from "../modules/sumonnersInfo";
 import "../css/SummonersContents.css";
 
 const SummonersContents = () => {
   const dispatch = useDispatch();
-  const { summonersInfo, loading, userName } = useSelector((state) => ({
-    summonersInfo: state.summonersInfo.summonersInfo,
-    loading: state.summonersInfo.loading,
-    userName: state.summonersInfo.userName,
-  }));
-  const API_KEY = "RGAPI-a5f9cba4-8e73-4503-8698-db1230444cac";
-  /* 테스트 버튼 
-  const onClick = () => {
-    // 이 부분을 useEffect로 변경 해야함
-    dispatch(setLoadingTrue());
-    fetch(
-      `https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${userName}?api_key=${API_KEY}`
-    )
-      .then((response) => response.json())
-      .then((json) => {
-        dispatch(setSummonersInfo(json));
-        console.log(summonersInfo);
-      });
-  };
-*/
+  const { summonersInfo, loading, userName, leagueInfo } = useSelector(
+    (state) => ({
+      summonersInfo: state.summonersInfo.summonersInfo,
+      loading: state.summonersInfo.loading,
+      userName: state.summonersInfo.userName,
+      leagueInfo: state.summonersInfo.leagueInfo,
+    })
+  );
+  const API_KEY = "RGAPI-4dda0427-4f3b-40e3-bb07-377be7533581";
+
   useEffect(() => {
     dispatch(setLoadingTrue());
     fetch(
@@ -38,17 +29,29 @@ const SummonersContents = () => {
       .then((response) => response.json())
       .then((json) => {
         dispatch(setSummonersInfo(json));
-        console.log(summonersInfo);
       });
   }, []);
 
   useEffect(() => {
     if (Object.keys(summonersInfo).length !== 0) {
-      dispatch(setLoadingFalse());
+      fetch(
+        `https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonersInfo.id}?api_key=${API_KEY}`
+      )
+        .then((response) => response.json())
+        .then((json) => dispatch(setLeagueInfo(json[0])));
     }
   }, [summonersInfo]);
 
-  console.log("mynameis", userName);
+  useEffect(() => {
+    if (
+      Object.keys(summonersInfo).length !== 0 &&
+      Object.keys(leagueInfo).length !== 0
+    ) {
+      dispatch(setLoadingFalse());
+    }
+  }, [leagueInfo]);
+
+  console.log();
 
   return (
     <>
@@ -63,10 +66,19 @@ const SummonersContents = () => {
                   src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/profileicon/${summonersInfo.profileIconId}.png`}
                   alt=""
                 />
-                <div className="level"></div>
+                <div className="level">
+                  <span>{summonersInfo.summonerLevel}</span>
+                </div>
               </div>
               <div className="info">
-                <div className="tier"></div>
+                <div className="tier-container">
+                  <ul>
+                    <li className="tier-li">
+                      <span className="year">S2022</span>
+                      <span className="tier"> {leagueInfo.tier}</span>
+                    </li>
+                  </ul>
+                </div>
                 <div className="name">{summonersInfo.name}</div>
                 <button className="refresh-button">전적 갱신</button>
                 <div className="last-update">
@@ -75,7 +87,19 @@ const SummonersContents = () => {
               </div>
             </div>
           </div>
-          <div className="contents-container"></div>
+          <div className="info-list-tab">
+            <ul className="info-list">
+              <li>
+                <span className="info-list-item-blue">종합</span>
+              </li>
+              <li>
+                <span className="info-list-item-green">인게임 정보</span>
+              </li>
+            </ul>
+          </div>
+          <div className="contents-body">
+            <div className="contents-container"></div>
+          </div>
         </>
       ) : null}
     </>
