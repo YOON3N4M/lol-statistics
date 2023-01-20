@@ -1,11 +1,11 @@
 import Header from "../components/Header";
-import SumonnersInfoContainer from "../containers/SumonnersInfoContainer";
+import SummonersContents from "../components/SummonersContents";
 
 function Summoners() {
   return (
     <>
       <Header />
-      <SumonnersInfoContainer />
+      <SummonersContents />
     </>
   );
 }

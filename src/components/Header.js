@@ -6,7 +6,10 @@ function Header() {
   return (
     <>
       <div className="header-box">
-        <Link style={{ textDecoration: "none" }} to="/">
+        <Link
+          style={{ textDecoration: "none" }}
+          to={process.env.PUBLIC_URL + "/"}
+        >
           <h1 className="header-logo">OP.GG</h1>
         </Link>
       </div>
