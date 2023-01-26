@@ -23,7 +23,7 @@ const initialState = {
   userName: "",
   summonersInfo: {},
   summonersLoading: true,
-  leagueInfo: {},
+  leagueInfo: [],
   leagueLoading: true,
 };
 

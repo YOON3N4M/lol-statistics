@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setSummonersInfo,
@@ -28,33 +28,32 @@ const SummonersContents = () => {
   }));
   const API_KEY = "RGAPI-8a9b5d19-a835-4cfe-b16e-fc119d59e7a0";
 
-  useEffect(() => {
+  async function fetchAPI() {
+    dispatch(setLeagueInfo({}));
+    dispatch(setSummonersInfo({}));
     dispatch(setSummonersLoadingTrue());
     dispatch(setLeagueLoadingTrue());
-    fetch(
+
+    const summonersRes = await fetch(
       `https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${userName}?api_key=${API_KEY}`
-    )
-      .then((response) => response.json())
-      .then((json) => {
-        dispatch(setSummonersInfo(json));
-        dispatch(setSummonersLoadingFalse());
-      });
-  }, []);
+    );
+    const summonersResJson = await summonersRes.json();
+    dispatch(setSummonersInfo(summonersResJson));
+    const leagueRes = await fetch(
+      `https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonersResJson.id}?api_key=${API_KEY}`
+    );
+    const LeagueResJson = await leagueRes.json();
+    dispatch(setLeagueInfo(LeagueResJson));
+    dispatch(setSummonersLoadingFalse());
+    dispatch(setLeagueLoadingFalse());
+    console.log(LeagueResJson, "이건  리그 리스폰스 입니다.");
+    console.log(summonersResJson, "이건  서머너 리스폰스 입니다.");
+    console.log(summonersInfo, "이건 리덕스 입니다.");
+  }
 
   useEffect(() => {
-    if (summonersLoading === false) {
-      fetch(
-        `https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonersInfo.id}?api_key=${API_KEY}`
-      )
-        .then((response) => response.json())
-        .then((json) => dispatch(setLeagueInfo(json[0])))
-        .then(() => {
-          setTimeout(() => {
-            dispatch(setLeagueLoadingFalse());
-          }, 500);
-        });
-    }
-  }, [summonersLoading]);
+    fetchAPI();
+  }, []);
 
   return (
     <>
