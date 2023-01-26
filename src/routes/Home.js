@@ -22,7 +22,7 @@ function Home() {
   function onSubmit(e) {
     e.preventDefault();
     dispatch(setUserName(username));
-    navigate(`/${username}`);
+    navigate(`summoners/kr/${username}`);
     //window.location.href = `/${userName}`;
   }
 

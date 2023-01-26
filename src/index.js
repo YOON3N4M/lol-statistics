@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/:summonerName",
+    path: "summoners/kr/:summonersName",
     element: <Summoners />,
   },
 ]);

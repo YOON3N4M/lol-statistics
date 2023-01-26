@@ -9,6 +9,7 @@ li {
   background-color: white;
   width: 100%;
   height: 273-45px;
+  padding-bottom: 25px;
 }
 .contents-body {
   width: 100%;
@@ -16,7 +17,6 @@ li {
   min-height: 800px;
 }
 .contents-container {
-  background-color: beige;
   width: 1080px;
   margin: 0 auto;
   height: 800px;
@@ -28,7 +28,6 @@ li {
   margin: 0 auto;
 }
 .info-list-tab {
-  margin-top: 25px;
   width: 100%;
   height: 45px;
   border-top: 1px solid;
@@ -36,6 +35,7 @@ li {
   padding: 4px 0;
   display: flex;
   align-items: center;
+  background-color: white;
 }
 .info-list {
   display: flex;
@@ -144,4 +144,166 @@ li {
   font-weight: bold;
   line-height: 20px;
   z-index: 100;
+}
+
+.left-contents {
+  display: inline-block;
+  vertical-align: top;
+  width: 332px;
+  min-height: 870px;
+  font-size: 12px;
+}
+
+.right-contents {
+  display: inline-block;
+  width: 740px;
+  height: 1000px;
+  margin-top: 8px;
+  margin-left: 8px;
+  vertical-align: top;
+}
+
+.current-rank-header {
+  background-color: white;
+  margin-top: 8px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  line-height: 35px;
+  padding: 0 12px;
+  font-size: 14px;
+}
+.current-rank-contents {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-top: 1px solid;
+  border-color: #ebeef1;
+  width: 308px;
+  height: 97px;
+  background-color: white;
+}
+.current-tier-box {
+  flex: 1 1 0%;
+  position: relative;
+  margin-left: 16px;
+}
+.current-tier {
+  font-size: 20px;
+  font-weight: bold;
+}
+.current-lp {
+  line-height: 16px;
+  margin-top: 2px;
+  font-size: 12px;
+  color: #758592;
+}
+.win-lose-container {
+  font-size: 12px;
+  color: #9aa4af;
+}
+.win-lose {
+  line-height: 26px;
+}
+.win-rate {
+  margin-top: 2px;
+  line-height: 16px;
+}
+.unranked {
+  font-size: 14px;
+  font-weight: bold;
+  color: #c3cbd1;
+}
+.most-played {
+  margin-top: 8px;
+  background-color: white;
+  border-radius: 4px;
+}
+.most-played-tab {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px;
+  margin: 0px;
+  font-size: 14px;
+  border-bottom: 1px solid;
+  border-color: #ebeef1;
+}
+.most-played-tab-item {
+  flex: 1;
+  margin-left: 4px;
+  vertical-align: middle;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 4px;
+  line-height: 28px;
+}
+
+.champion-box {
+  display: table;
+  width: 100%;
+  height: 48px;
+  border-bottom: 1px solid;
+  border-color: #ebeef1;
+  color: #9aa4af;
+  text-align: center;
+  table-layout: fixed;
+}
+
+.more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 0 8px;
+  font-size: 12px;
+  text-align: center;
+  background-color: #f7f7f9;
+  color: #758592;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.match-history-tab {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom: 1px solid;
+  border-color: #ebeef1;
+  background-color: white;
+}
+.match-history-tab > ul {
+  display: flex;
+  line-height: 28px;
+  margin: 0px;
+}
+.match-history-tab-item {
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 28px;
+  cursor: pointer;
+}
+
+.match-history-summary {
+  display: flex;
+  text-align: left;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  padding: 24px 21px;
+  box-sizing: border-box;
+  width: 740px;
+  height: 164px;
+  background-color: white;
+}
+.match-history-container {
+  margin-top: 8px;
+}
+
+.match {
+  width: 740px;
+  height: 96px;
+  background-color: #5383e8;
+  margin-bottom: 8px;
+  border-radius: 4px;
 }
