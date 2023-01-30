@@ -89,16 +89,18 @@ li {
   padding-left: 0px;
 }
 .tier-li {
+  display: inline-block;
   list-style: none;
-  padding-left: 0;
-  width: 78.33px;
+  padding: 0px 4px;
+  min-width: 78.33px;
+  max-width: 99px;
   line-height: 18px;
   background-color: #ebeef1;
   border-radius: 2px;
   text-align: center;
+  margin-right: 4px;
 }
 .year {
-  font-weight: bold;
   font-size: 11px;
   color: #9aa4af;
 }
@@ -187,6 +189,18 @@ li {
   flex: 1 1 0%;
   position: relative;
   margin-left: 16px;
+}
+.current-rank-contents > :first-child {
+  background-color: #f7f7f9;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.current-tier-img {
+  width: 60px;
 }
 .current-tier {
   font-size: 20px;

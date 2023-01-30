@@ -50,7 +50,9 @@ function Home() {
                   value={username}
                 ></input>
               </div>
-              <span className="search-btn">.GG</span>
+              <span onClick={onSubmit} className="search-btn">
+                .GG
+              </span>
             </div>
           </form>
         </div>

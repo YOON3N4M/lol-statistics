@@ -8,6 +8,9 @@ const SET_LEAGUE_LOADING_TRUE = "SET_LEAGUE_LOADING_TRUE";
 const SET_LEAGUE_LOADING_FALSE = "SET_LEAGUE_LOADING_FALSE";
 const SET_WINRATE = "SET_WINRATE";
 const SET_RANK = "SET_RANK";
+const SET_TIER = "SET_TIER";
+const SET_TIER_CAP = "SET_TIER_CAP";
+const CLEAR_ALL = "CLEAR_ALL";
 
 export const setUserName = (userName) => ({ type: SET_USERNAME, userName });
 export const setSummonersInfo = (data) => ({ type: SET_SUMMONERS_INFO, data });
@@ -23,6 +26,9 @@ export const setLeagueLoadingTrue = () => ({ type: SET_LEAGUE_LOADING_TRUE });
 export const setLeagueLoadingFalse = () => ({ type: SET_LEAGUE_LOADING_FALSE });
 export const setWinRate = (data) => ({ type: SET_WINRATE, data });
 export const setRank = (data) => ({ type: SET_RANK, data });
+export const setTier = (data) => ({ type: SET_TIER, data });
+export const setTierCap = (data) => ({ type: SET_TIER_CAP, data });
+export const clearAll = () => ({ type: CLEAR_ALL });
 
 const initialState = {
   userName: "",
@@ -31,7 +37,9 @@ const initialState = {
   leagueInfo: [],
   leagueLoading: true,
   winRate: 0,
-  rank: 0,
+  tier: "",
+  tierCap: "",
+  rank: "",
 };
 
 export default function summonersInfo(state = initialState, action) {
@@ -85,6 +93,29 @@ export default function summonersInfo(state = initialState, action) {
       return {
         ...state,
         rank: action.data,
+      };
+    case SET_TIER:
+      return {
+        ...state,
+        tier: action.data,
+      };
+    case SET_TIER_CAP:
+      return {
+        ...state,
+        tierCap: action.data,
+      };
+    case CLEAR_ALL:
+      return {
+        ...state,
+        userName: "",
+        summonersInfo: {},
+        summonersLoading: true,
+        leagueInfo: [],
+        leagueLoading: true,
+        winRate: 0,
+        tier: "",
+        tierCap: "",
+        rank: "",
       };
     default:
       return state;

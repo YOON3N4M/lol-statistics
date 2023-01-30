@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "summoners/kr/:summonersName",
+    path: `${process.env.PUBLIC_URL + "/summoners/kr/:summonersName"}`,
     element: <Summoners />,
   },
 ]);
