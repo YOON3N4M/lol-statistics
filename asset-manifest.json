@@ -1,13 +1,22 @@
 {
   "files": {
-    "main.css": "/lol-statistics/static/css/main.1a9c4d69.css",
-    "main.js": "/lol-statistics/static/js/main.cef48f86.js",
+    "main.css": "/lol-statistics/static/css/main.fd5c2a9a.css",
+    "main.js": "/lol-statistics/static/js/main.c9a27156.js",
+    "static/media/challenger.png": "/lol-statistics/static/media/challenger.1b2a2722c1428e5a5820.png",
+    "static/media/grandmaster.png": "/lol-statistics/static/media/grandmaster.ad4f1212548c4263b084.png",
+    "static/media/diamond.png": "/lol-statistics/static/media/diamond.8cad15591b6bba3cac86.png",
+    "static/media/master.png": "/lol-statistics/static/media/master.10984270021b68318237.png",
+    "static/media/gold.png": "/lol-statistics/static/media/gold.49b073ce525f11eda30e.png",
+    "static/media/platinum.png": "/lol-statistics/static/media/platinum.2c393b4029e10bb483d5.png",
+    "static/media/silver.png": "/lol-statistics/static/media/silver.ce4847a85c43a28d331d.png",
+    "static/media/bronze.png": "/lol-statistics/static/media/bronze.f700c10f67f019c348f2.png",
+    "static/media/iron.png": "/lol-statistics/static/media/iron.8af44ee6da72e590c18c.png",
     "index.html": "/lol-statistics/index.html",
-    "main.1a9c4d69.css.map": "/lol-statistics/static/css/main.1a9c4d69.css.map",
-    "main.cef48f86.js.map": "/lol-statistics/static/js/main.cef48f86.js.map"
+    "main.fd5c2a9a.css.map": "/lol-statistics/static/css/main.fd5c2a9a.css.map",
+    "main.c9a27156.js.map": "/lol-statistics/static/js/main.c9a27156.js.map"
   },
   "entrypoints": [
-    "static/css/main.1a9c4d69.css",
-    "static/js/main.cef48f86.js"
+    "static/css/main.fd5c2a9a.css",
+    "static/js/main.c9a27156.js"
   ]
 }
