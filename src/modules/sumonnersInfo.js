@@ -11,6 +11,8 @@ const SET_RANK = "SET_RANK";
 const SET_TIER = "SET_TIER";
 const SET_TIER_CAP = "SET_TIER_CAP";
 const CLEAR_ALL = "CLEAR_ALL";
+const SET_MATCH_ID_ARR = "SET_MATCH_ID_ARR";
+const SET_MATCH_DATA = "SET_MATCH_DATA";
 
 export const setUserName = (userName) => ({ type: SET_USERNAME, userName });
 export const setSummonersInfo = (data) => ({ type: SET_SUMMONERS_INFO, data });
@@ -29,6 +31,8 @@ export const setRank = (data) => ({ type: SET_RANK, data });
 export const setTier = (data) => ({ type: SET_TIER, data });
 export const setTierCap = (data) => ({ type: SET_TIER_CAP, data });
 export const clearAll = () => ({ type: CLEAR_ALL });
+export const setMatchIdArr = (data) => ({ type: SET_MATCH_ID_ARR, data });
+export const setMatchData = (data) => ({ type: SET_MATCH_DATA, data });
 
 const initialState = {
   userName: "",
@@ -40,6 +44,8 @@ const initialState = {
   tier: "",
   tierCap: "",
   rank: "",
+  matchIdArr: [],
+  matchData: [],
 };
 
 export default function summonersInfo(state = initialState, action) {
@@ -104,6 +110,16 @@ export default function summonersInfo(state = initialState, action) {
         ...state,
         tierCap: action.data,
       };
+    case SET_MATCH_ID_ARR:
+      return {
+        ...state,
+        matchIdArr: action.data,
+      };
+    case SET_MATCH_DATA:
+      return {
+        ...state,
+        matchData: action.data,
+      };
     case CLEAR_ALL:
       return {
         ...state,
@@ -116,6 +132,7 @@ export default function summonersInfo(state = initialState, action) {
         tier: "",
         tierCap: "",
         rank: "",
+        matchIdArr: [],
       };
     default:
       return state;

@@ -15,6 +15,8 @@ import {
   setTier,
   setTierCap,
   clearAll,
+  setMatchIdArr,
+  setMatchData,
 } from "../modules/sumonnersInfo";
 import "../css/SummonersContents.css";
 import IRON from "../img/tier/iron.png";
@@ -39,6 +41,8 @@ const SummonersContents = () => {
     rank,
     tier,
     tierCap,
+    matchIdArr,
+    matchData,
   } = useSelector((state) => ({
     summonersInfo: state.summonersInfo.summonersInfo,
     summonersLoading: state.summonersInfo.summonersLoading,
@@ -49,6 +53,8 @@ const SummonersContents = () => {
     rank: state.summonersInfo.rank,
     tier: state.summonersInfo.tier,
     tierCap: state.summonersInfo.tierCap,
+    matchIdArr: state.summonersInfo.matchIdArr,
+    matchData: state.summonersInfo.matchData,
   }));
   const API_KEY = "RGAPI-8a9b5d19-a835-4cfe-b16e-fc119d59e7a0";
   const params = useParams();
@@ -57,21 +63,56 @@ const SummonersContents = () => {
     dispatch(clearAll());
     const summonersRes = await fetch(
       `https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${params.summonersName}?api_key=${API_KEY}`
-    );
+    ); // summonerV4 기본 소환사 정보를 불러오는 API
     const summonersResJson = await summonersRes.json();
     dispatch(setSummonersInfo(summonersResJson));
     const leagueRes = await fetch(
       `https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonersResJson.id}?api_key=${API_KEY}`
-    );
+    ); // leagueV4 소환사 정보에서 불러온 id로 해당 소환사의 리그 정보를 불러오는 API
     const LeagueResJson = await leagueRes.json();
     dispatch(setLeagueInfo(LeagueResJson));
+    const matchRes = await fetch(
+      `https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonersResJson.puuid}/ids?start=0&count=1&api_key=${API_KEY}`
+    ); // matchV5 소환사 정보에서 불러온 puuid로 해당 소환사의 경기 코드를 불러오는 API rate limit에 걸리는 관계로 0~15로 설정
+    const matchResArr = await matchRes.json();
+    dispatch(setMatchIdArr(matchResArr));
 
+    const matchObjArr = []; // 최종적으로 리덕스 matchData에 업데이트 되는 데이터 matchData
+
+    function getMatchInfo(item, index) {
+      const korNameArr = [];
+      fetch(
+        `https://asia.api.riotgames.com/lol/match/v5/matches/${matchResArr[index]}?api_key=${API_KEY}`
+      )
+        .then((res) => res.json())
+        .then((json) => {
+          /* 이 부분이 한글 이름 10개를 불러오는 부분인데 지금 시스템적으로 불가능할 것 같아서 임시 주석처리  
+           json.metadata.participants.map((puuid, index) =>
+           fetch(
+              `https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}?api_key=${API_KEY}`
+            )
+              .then((res) => res.json())
+              .then((json) => {
+                korNameArr.push(json.name);
+                console.log(korNameArr);
+              }) 
+          );
+          json.metadata.participantsKor = korNameArr;
+           */
+          matchObjArr.push(json);
+          console.log(json.info.participants);
+        });
+    }
+
+    const eachMatchRes = await matchResArr.map((item, index) =>
+      setTimeout(getMatchInfo(item, index), 500)
+    );
+
+    dispatch(setMatchData(matchObjArr));
+
+    //마지막 단계
     dispatch(setSummonersLoadingFalse());
     dispatch(setLeagueLoadingFalse());
-    console.log(LeagueResJson, "이건  리그 리스폰스 입니다.");
-    console.log(summonersResJson, "이건  서머너 리스폰스 입니다.");
-    console.log(summonersInfo, "이건 리덕스 입니다.");
-    console.log(leagueInfo.length);
 
     // api를 불러온 후 LeagueResJson[0].tier를 검사해 각 티어에 맞는 이미지 디스패치와 cap적용 티어 디스패치
     switch (LeagueResJson[0].tier) {
@@ -153,7 +194,7 @@ const SummonersContents = () => {
 
     fetchAPI();
   }, []);
-  console.log(leagueInfo.length);
+
   return (
     <>
       {summonersLoading === false && leagueLoading === false ? (
