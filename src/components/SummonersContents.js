@@ -58,7 +58,7 @@ const SummonersContents = () => {
   }));
   const API_KEY = "RGAPI-8a9b5d19-a835-4cfe-b16e-fc119d59e7a0";
   const params = useParams();
-
+  const [isLoading, setIsLoading] = useState(true);
   async function fetchAPI() {
     dispatch(clearAll());
     const summonersRes = await fetch(
@@ -72,43 +72,25 @@ const SummonersContents = () => {
     const LeagueResJson = await leagueRes.json();
     dispatch(setLeagueInfo(LeagueResJson));
     const matchRes = await fetch(
-      `https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonersResJson.puuid}/ids?start=0&count=1&api_key=${API_KEY}`
+      `https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonersResJson.puuid}/ids?start=0&count=2&api_key=${API_KEY}`
     ); // matchV5 소환사 정보에서 불러온 puuid로 해당 소환사의 경기 코드를 불러오는 API rate limit에 걸리는 관계로 0~15로 설정
     const matchResArr = await matchRes.json();
     dispatch(setMatchIdArr(matchResArr));
 
-    const matchObjArr = []; // 최종적으로 리덕스 matchData에 업데이트 되는 데이터 matchData
-
     function getMatchInfo(item, index) {
-      const korNameArr = [];
       fetch(
         `https://asia.api.riotgames.com/lol/match/v5/matches/${matchResArr[index]}?api_key=${API_KEY}`
       )
         .then((res) => res.json())
         .then((json) => {
-          /* 이 부분이 한글 이름 10개를 불러오는 부분인데 지금 시스템적으로 불가능할 것 같아서 임시 주석처리  
-           json.metadata.participants.map((puuid, index) =>
-           fetch(
-              `https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}?api_key=${API_KEY}`
-            )
-              .then((res) => res.json())
-              .then((json) => {
-                korNameArr.push(json.name);
-                console.log(korNameArr);
-              }) 
-          );
-          json.metadata.participantsKor = korNameArr;
-           */
-          matchObjArr.push(json);
-          console.log(json.info.participants);
+          dispatch(setMatchData(json));
+          //console.log(json.info.participants);
         });
     }
 
     const eachMatchRes = await matchResArr.map((item, index) =>
       setTimeout(getMatchInfo(item, index), 500)
-    );
-
-    dispatch(setMatchData(matchObjArr));
+    ); // 이 Res를 활용해야 하는지?
 
     //마지막 단계
     dispatch(setSummonersLoadingFalse());
@@ -188,11 +170,16 @@ const SummonersContents = () => {
       dispatch(setUserName(params.summonersName));
     }
   }
-
+  function check() {
+    const aaa = [2, 1];
+    console.log(Array.isArray(matchData), "잉");
+    console.log(Array.isArray(matchData), "잉");
+    console.log(matchData);
+  }
   useEffect(() => {
     ifRefresh();
-
     fetchAPI();
+    check();
   }, []);
 
   return (
@@ -312,9 +299,29 @@ const SummonersContents = () => {
               <div className="match-history-summary"></div>
               <div className="match-history-container">
                 <li className="match"></li>
-                <li className="match"></li>
-                <li className="match"></li>
-                <li className="match"></li>
+                <li className="match win">
+                  <div className="game">
+                    <div className="type">솔랭</div>
+                    <div className="time-stamp">19시간 전</div>
+                    <div className="small-border"></div>
+                    <div className="result">승리</div>
+                    <div className="length">29분30초</div>
+                  </div>
+                  <div className="game-info"></div>
+                  <div className="participants"></div>
+                </li>
+                <li className="match lose"></li>
+                <li className="match">{matchIdArr[0]}</li>
+                <li className="match">{matchIdArr[1]}</li>
+                <li className="match">{matchData.length}</li>
+                <li className="match">
+                  {matchData.length !== 0 ? (
+                    <span>
+                      {" "}
+                      {matchData[0].info.participants[0].championName}
+                    </span>
+                  ) : null}
+                </li>
               </div>
             </div>
           </div>

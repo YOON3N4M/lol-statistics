@@ -118,7 +118,10 @@ export default function summonersInfo(state = initialState, action) {
     case SET_MATCH_DATA:
       return {
         ...state,
-        matchData: action.data,
+        //  matchData: [...state.matchData, action.data],
+        matchData: [...state.matchData, action.data].filter(
+          (a) => a.length !== 0
+        ), // 초깃값인 []까지 남아 이를 filter로 제거. 다른 방식은 없을까
       };
     case CLEAR_ALL:
       return {
@@ -133,6 +136,7 @@ export default function summonersInfo(state = initialState, action) {
         tierCap: "",
         rank: "",
         matchIdArr: [],
+        matchData: [],
       };
     default:
       return state;
