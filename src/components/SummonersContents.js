@@ -299,16 +299,19 @@ const SummonersContents = () => {
               <div className="match-history-summary"></div>
               <div className="match-history-container">
                 <li className="match"></li>
-                <li className="match win">
-                  <div className="game">
-                    <div className="type">솔랭</div>
-                    <div className="time-stamp">19시간 전</div>
-                    <div className="small-border"></div>
-                    <div className="result">승리</div>
-                    <div className="length">29분30초</div>
+                <li className="match">
+                  <div className="match-container">
+                    <div className="game">
+                      <div className="type">솔랭</div>
+                      <div className="time-stamp">19시간 전</div>
+                      <div className="small-border"></div>
+                      <div className="result">승리</div>
+                      <div className="length">29분30초</div>
+                    </div>
+                    <div className="game-info"></div>
+                    <div className="participants"></div>
                   </div>
-                  <div className="game-info"></div>
-                  <div className="participants"></div>
+                  <div>버튼자리</div>
                 </li>
                 <li className="match lose"></li>
                 <li className="match">{matchIdArr[0]}</li>
