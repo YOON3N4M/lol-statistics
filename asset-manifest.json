@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/lol-statistics/static/css/main.fd5c2a9a.css",
-    "main.js": "/lol-statistics/static/js/main.c9a27156.js",
+    "main.css": "/lol-statistics/static/css/main.7dff7c61.css",
+    "main.js": "/lol-statistics/static/js/main.b3cc8428.js",
     "static/media/challenger.png": "/lol-statistics/static/media/challenger.1b2a2722c1428e5a5820.png",
     "static/media/grandmaster.png": "/lol-statistics/static/media/grandmaster.ad4f1212548c4263b084.png",
     "static/media/diamond.png": "/lol-statistics/static/media/diamond.8cad15591b6bba3cac86.png",
@@ -12,11 +12,11 @@
     "static/media/bronze.png": "/lol-statistics/static/media/bronze.f700c10f67f019c348f2.png",
     "static/media/iron.png": "/lol-statistics/static/media/iron.8af44ee6da72e590c18c.png",
     "index.html": "/lol-statistics/index.html",
-    "main.fd5c2a9a.css.map": "/lol-statistics/static/css/main.fd5c2a9a.css.map",
-    "main.c9a27156.js.map": "/lol-statistics/static/js/main.c9a27156.js.map"
+    "main.7dff7c61.css.map": "/lol-statistics/static/css/main.7dff7c61.css.map",
+    "main.b3cc8428.js.map": "/lol-statistics/static/js/main.b3cc8428.js.map"
   },
   "entrypoints": [
-    "static/css/main.fd5c2a9a.css",
-    "static/js/main.c9a27156.js"
+    "static/css/main.7dff7c61.css",
+    "static/js/main.b3cc8428.js"
   ]
 }
