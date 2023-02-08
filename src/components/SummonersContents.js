@@ -28,6 +28,7 @@ import DIAMOND from "../img/tier/diamond.png";
 import MASTER from "../img/tier/master.png";
 import GRANDMASTER from "../img/tier/grandmaster.png";
 import CHALLENGER from "../img/tier/challenger.png";
+import MatchHistory from "./MatchHistory";
 
 const SummonersContents = () => {
   const dispatch = useDispatch();
@@ -56,6 +57,7 @@ const SummonersContents = () => {
     matchIdArr: state.summonersInfo.matchIdArr,
     matchData: state.summonersInfo.matchData,
   }));
+  const [debug, setDebug] = useState(false);
   const API_KEY = "RGAPI-8a9b5d19-a835-4cfe-b16e-fc119d59e7a0";
   const params = useParams();
   const [isLoading, setIsLoading] = useState(true);
@@ -66,13 +68,14 @@ const SummonersContents = () => {
     ); // summonerV4 기본 소환사 정보를 불러오는 API
     const summonersResJson = await summonersRes.json();
     dispatch(setSummonersInfo(summonersResJson));
+    dispatch(setUserName(summonersResJson.name)); // 이 부분이 없으면 대소문자를 구분 할 수 없음
     const leagueRes = await fetch(
       `https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonersResJson.id}?api_key=${API_KEY}`
     ); // leagueV4 소환사 정보에서 불러온 id로 해당 소환사의 리그 정보를 불러오는 API
     const LeagueResJson = await leagueRes.json();
     dispatch(setLeagueInfo(LeagueResJson));
     const matchRes = await fetch(
-      `https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonersResJson.puuid}/ids?start=0&count=2&api_key=${API_KEY}`
+      `https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonersResJson.puuid}/ids?start=0&count=5&api_key=${API_KEY}`
     ); // matchV5 소환사 정보에서 불러온 puuid로 해당 소환사의 경기 코드를 불러오는 API rate limit에 걸리는 관계로 0~15로 설정
     const matchResArr = await matchRes.json();
     dispatch(setMatchIdArr(matchResArr));
@@ -297,302 +300,17 @@ const SummonersContents = () => {
                 <div className="검색창"></div>
               </div>
               <div className="match-history-summary">
-                <button onClick={() => console.log(matchData)}>aaa</button>
+                <button onClick={() => console.log(matchData)}>
+                  get matchData
+                </button>
+                <button onClick={() => setDebug((prev) => !prev)}>Debug</button>
               </div>
               <div className="match-history-container">
                 {matchData.length !== 0
                   ? matchData.map((match, index) => (
-                      <li
-                        className={
-                          "match" +
-                          (match.info.participants.filter(
-                            (player) =>
-                              player.summonerName === matchData.userName
-                          ).win
-                            ? " win"
-                            : " lose")
-                        }
-                      >
-                        <div className="game-container">
-                          <div className="game">
-                            <div className="type">
-                              {match.info.gameMode === "CLASSIC"
-                                ? "솔랭"
-                                : "일반"}
-                            </div>
-                            <div className="time-stamp">-시간 전</div>
-                            <div className="small-border"></div>
-                            <div className="result">승리</div>
-                            <div className="length">
-                              {(match.info.gameDuration / 60).toFixed(0) + "분"}
-                            </div>
-                          </div>
-                          <div className="game-info">
-                            <div className="top-row">
-                              <div className="champion">
-                                <div className="">
-                                  <img
-                                    className="icon"
-                                    src="https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/Amumu.png"
-                                  />
-                                </div>
-                                <div className="spells">
-                                  <div className="spell">
-                                    <img
-                                      className="spell"
-                                      src="https://ddragon.leagueoflegends.com/cdn/13.1.1/img/spell/SummonerBoost.png"
-                                    />
-                                  </div>
-                                  <div className="spell">
-                                    <img
-                                      className="spell"
-                                      src="https://ddragon.leagueoflegends.com/cdn/13.1.1/img/spell/SummonerBoost.png"
-                                    />
-                                  </div>
-                                </div>
-                                <div className="runes">
-                                  <div className="rune-main">
-                                    <img
-                                      className="rune"
-                                      src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/PressTheAttack/PressTheAttack.png"
-                                    />
-                                  </div>
-                                  <div className="rune">
-                                    <img
-                                      className="rune"
-                                      src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/7200_Domination.png"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="kda">
-                                <div className="k-d-a">
-                                  <span>3</span>/
-                                  <span className="death">6</span>/
-                                  <span>1</span>
-                                </div>
-                                <div className="ratio">
-                                  <span>0.75:1 </span>
-                                  평점
-                                </div>
-                              </div>
-                              <div className="stats">
-                                <div className="p-kill">킬관여 20%</div>
-                                <div className="ward">제어와드 0</div>
-                                <div className="cs">cs 130(5.5)</div>
-                                <div className="average-tier">Gold 3</div>
-                              </div>
-                            </div>
-                            <div className="bottom-row">
-                              <div className="items">
-                                <ul>
-                                  <li>
-                                    <img src="https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3108.png" />
-                                  </li>
-                                  <li>
-                                    <img src="https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3108.png" />
-                                  </li>
-                                  <li>
-                                    <img src="https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3108.png" />
-                                  </li>
-                                  <li>
-                                    <img src="https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3108.png" />
-                                  </li>
-                                  <li>
-                                    <img src="https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3108.png" />
-                                  </li>
-                                  <li>
-                                    <img src="https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3108.png" />
-                                  </li>
-                                </ul>
-                                <div className="ward">
-                                  <img src="https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3108.png" />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="participants">
-                            <ul>
-                              <li>
-                                <div className="part-icon">
-                                  <img
-                                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[0].championName}.png`}
-                                    alt={
-                                      match.info.participants[0].championName
-                                    }
-                                  />
-                                </div>
-                                <div className="part-name">
-                                  <a>
-                                    {match.info.participants[0].summonerName}
-                                  </a>
-                                </div>
-                              </li>
-                              <li>
-                                {" "}
-                                <div className="part-icon">
-                                  <img
-                                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[1].championName}.png`}
-                                    alt={
-                                      match.info.participants[1].championName
-                                    }
-                                  />{" "}
-                                </div>
-                                <div className="part-name">
-                                  <a>
-                                    {match.info.participants[1].summonerName}
-                                  </a>
-                                </div>
-                              </li>
-                              <li>
-                                {" "}
-                                <div className="part-icon">
-                                  <img
-                                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[2].championName}.png`}
-                                    alt={
-                                      match.info.participants[2].championName
-                                    }
-                                  />{" "}
-                                </div>
-                                <div className="part-name">
-                                  <a>
-                                    {match.info.participants[2].summonerName}
-                                  </a>
-                                </div>
-                              </li>
-                              <li>
-                                {" "}
-                                <div className="part-icon">
-                                  <img
-                                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[3].championName}.png`}
-                                    alt={
-                                      match.info.participants[3].championName
-                                    }
-                                  />{" "}
-                                </div>
-                                <div className="part-name">
-                                  <a>
-                                    {match.info.participants[3].summonerName}
-                                  </a>
-                                </div>
-                              </li>
-                              <li>
-                                {" "}
-                                <div className="part-icon">
-                                  <img
-                                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[4].championName}.png`}
-                                    alt={
-                                      match.info.participants[4].championName
-                                    }
-                                  />{" "}
-                                </div>
-                                <div className="part-name">
-                                  <a>
-                                    {match.info.participants[4].summonerName}
-                                  </a>
-                                </div>
-                              </li>
-                            </ul>
-                            <ul>
-                              <li>
-                                <div className="part-icon">
-                                  <img
-                                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[5].championName}.png`}
-                                    alt={
-                                      match.info.participants[5].championName
-                                    }
-                                  />{" "}
-                                </div>
-                                <div className="part-name">
-                                  <a>
-                                    {match.info.participants[5].summonerName}
-                                  </a>
-                                </div>
-                              </li>
-                              <li>
-                                {" "}
-                                <div className="part-icon">
-                                  <img
-                                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[6].championName}.png`}
-                                    alt={
-                                      match.info.participants[6].championName
-                                    }
-                                  />{" "}
-                                </div>
-                                <div className="part-name">
-                                  <a>
-                                    {match.info.participants[6].summonerName}
-                                  </a>
-                                </div>
-                              </li>
-                              <li>
-                                {" "}
-                                <div className="part-icon">
-                                  <img
-                                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[7].championName}.png`}
-                                    alt={
-                                      match.info.participants[7].championName
-                                    }
-                                  />{" "}
-                                </div>
-                                <div className="part-name">
-                                  <a>
-                                    {match.info.participants[7].summonerName}
-                                  </a>
-                                </div>
-                              </li>
-                              <li>
-                                {" "}
-                                <div className="part-icon">
-                                  <img
-                                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[8].championName}.png`}
-                                    alt={
-                                      match.info.participants[8].championName
-                                    }
-                                  />{" "}
-                                </div>
-                                <div className="part-name">
-                                  <a>
-                                    {match.info.participants[8].summonerName}
-                                  </a>
-                                </div>
-                              </li>
-                              <li>
-                                {" "}
-                                <div className="part-icon">
-                                  <img
-                                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[9].championName}.png`}
-                                    alt={
-                                      match.info.participants[9].championName
-                                    }
-                                  />{" "}
-                                </div>
-                                <div className="part-name">
-                                  <a>
-                                    {match.info.participants[9].summonerName}
-                                  </a>
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div className="detail">
-                          <button className="detail-btn"></button>
-                        </div>
-                      </li>
+                      <MatchHistory match={match} key={index} debug={debug} />
                     ))
                   : null}
-
-                <li className="match lose"></li>
-
-                <li className="match win">
-                  {matchData.length !== 0 ? (
-                    <span>
-                      {" "}
-                      {matchData[0].info.participants[0].championName}
-                    </span>
-                  ) : null}
-                </li>
               </div>
             </div>
           </div>

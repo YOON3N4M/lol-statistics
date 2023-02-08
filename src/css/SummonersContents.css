@@ -372,7 +372,17 @@ li {
   border-left-style: solid;
   border-color: #e84057 !important;
 }
-
+.red {
+  color: #d31a45 !important;
+}
+.red-item {
+  background-color: #ffbac3;
+  border-radius: 4px;
+}
+.blue-item {
+  background-color: #b3cdff;
+  border-radius: 4px;
+}
 .game-info {
   width: 377px;
   height: 83px;
@@ -433,7 +443,7 @@ li {
   line-height: 22px;
   font-size: 15px;
   color: #9aa4af;
-  letter-spacing: 7px;
+  letter-spacing: 3px;
 }
 .k-d-a > span {
   color: #202d37;
@@ -463,7 +473,10 @@ li {
 .items {
   display: flex;
 }
-
+.item-box {
+  width: 22px;
+  height: 22px;
+}
 .items > ul {
   display: flex;
   margin: 0;
@@ -473,17 +486,22 @@ li {
   width: 22px;
   height: 22px;
 }
-.items > ul > li > img {
+.item-box > img {
   width: 22px;
   height: 22px;
   border-radius: 4px;
 }
-.ward > img {
+.ward-box {
   width: 22px;
   height: 22px;
   border-radius: 50%;
   margin-left: 2px;
   margin-right: 4px;
+}
+.ward-box > img {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
 }
 .participants {
   display: flex;
