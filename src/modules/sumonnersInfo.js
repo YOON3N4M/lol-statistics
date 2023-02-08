@@ -118,10 +118,15 @@ export default function summonersInfo(state = initialState, action) {
     case SET_MATCH_DATA:
       return {
         ...state,
+        // matchData: action.data,
         //  matchData: [...state.matchData, action.data],
+
         matchData: [...state.matchData, action.data].filter(
-          (a) => a.length !== 0
-        ), // 초깃값인 []까지 남아 이를 filter로 제거. 다른 방식은 없을까
+          (a) => a.length !== 0 // 초깃값인 []까지 남아 이를 filter로 제거. 다른 방식은 없을까
+        ) /*
+        .sort(function (a, b) {
+            return b.info.gameCreation - a.info.gameCreation;
+          })*/,
       };
     case CLEAR_ALL:
       // 이때 userName은 초기화 하지 않는다. Home에서 submit이 이루어진후 userName은 새로운 값이 들어가므로

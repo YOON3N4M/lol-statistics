@@ -9,7 +9,6 @@ function MatchHistory({ match, debug }) {
     (player) => player.summonerName === userName
   )[0];
   const isWin = currentPlayer.win;
-  console.log(currentPlayer.championName);
   const [fixChampion, setFixChampion] = useState("");
   const [kda, setKda] = useState();
   const [itemList, setItemList] = useState({
@@ -21,7 +20,10 @@ function MatchHistory({ match, debug }) {
     item5: false,
     item6: false, // 장신구
   });
-
+  const [spellA, setSpellA] = useState();
+  const [spellB, setSpellB] = useState();
+  const [runeA, setRuneA] = useState();
+  const [runeB, setRuneB] = useState();
   useEffect(() => {
     /*
   이상하게 피들스틱만 machData의 championName을 그대로 이용하면 API 오류가 발생 대문에 아래와 같은 변경 요망
@@ -85,6 +87,153 @@ function MatchHistory({ match, debug }) {
         return { ...prev, item6: true };
       });
     }
+    switch (currentPlayer.summoner1Id) {
+      case 11:
+        setSpellA("SummonerSmite");
+        break;
+      case 4:
+        setSpellA("SummonerFlash");
+        break;
+      case 6:
+        setSpellA("SummonerHaste");
+        break;
+      case 7:
+        setSpellA("SummonerHeal");
+        break;
+      case 12:
+        setSpellA("SummonerTeleport");
+        break;
+      case 21:
+        setSpellA("SummonerBarrier");
+        break;
+      case 14:
+        setSpellA("SummonerDot");
+        break;
+      case 3:
+        setSpellA("SummonerExhaust");
+        break;
+      case 13:
+        setSpellA("SummonerMana");
+        break;
+      case 1:
+        setSpellA("SummonerBoost");
+        break;
+      case 39:
+        setSpellA("SummonerSnowURFSnowball_Mark");
+        break;
+      default:
+        break;
+    }
+    switch (currentPlayer.summoner2Id) {
+      case 11:
+        setSpellB("SummonerSmite");
+        break;
+      case 4:
+        setSpellB("SummonerFlash");
+        break;
+      case 6:
+        setSpellB("SummonerHaste");
+        break;
+      case 7:
+        setSpellB("SummonerHeal");
+        break;
+      case 12:
+        setSpellB("SummonerTeleport");
+        break;
+      case 21:
+        setSpellB("SummonerBarrier");
+        break;
+      case 14:
+        setSpellB("SummonerDot");
+        break;
+      case 3:
+        setSpellB("SummonerExhaust");
+        break;
+      case 13:
+        setSpellB("SummonerMana");
+        break;
+      case 1:
+        setSpellB("SummonerBoost");
+        break;
+      case 39:
+        setSpellB("SummonerSnowURFSnowball_Mark");
+        break;
+      default:
+        break;
+    }
+    //메인룬 이미지
+    switch (currentPlayer.perks.styles[0].selections[0].perk) {
+      case 8005:
+        setRuneA("Precision/PressTheAttack/PressTheAttack");
+        break;
+      case 8008:
+        setRuneA("Precision/LethalTempo/LethalTempoTemp");
+        break;
+      case 8021:
+        setRuneA("Precision/FleetFootwork/FleetFootwork");
+        break;
+      case 8010:
+        setRuneA("Precision/Conqueror/Conqueror");
+        break;
+      case 8112:
+        setRuneA("Domination/Electrocute/Electrocute");
+      case 8124:
+        setRuneA("Domination/Predator/Predator");
+        break;
+      case 8128:
+        setRuneA("Domination/DarkHarvest/DarkHarvest");
+        break;
+      case 9923:
+        setRuneA("Domination/HailOfBlades/HailOfBlades");
+        break;
+      case 8214:
+        setRuneA("Sorcery/SummonAery/SummonAery");
+        break;
+      case 8229:
+        setRuneA("Sorcery/ArcaneComet/ArcaneComet");
+        break;
+      case 8230:
+        setRuneA("Sorcery/PhaseRush/PhaseRush");
+        break;
+      case 8437:
+        setRuneA("Resolve/GraspOfTheUndying/GraspOfTheUndying");
+        break;
+      case 8439:
+        setRuneA("Resolve/VeteranAftershock/VeteranAftershock");
+        break;
+      case 8465:
+        setRuneA("Resolve/Guardian/Guardian");
+        break;
+      case 8351:
+        setRuneA("Inspiration/GlacialAugment/GlacialAugment");
+        break;
+      case 8360:
+        setRuneA("Inspiration/UnsealedSpellbook/UnsealedSpellbook");
+        break;
+      case 8369:
+        setRuneA("Inspiration/FirstStrike/FirstStrike");
+        break;
+    }
+    //서브룬 이미지
+    switch (currentPlayer.perks.styles[1].style) {
+      case 8000:
+        setRuneB("7201_Precision");
+        break;
+      case 8100:
+        setRuneB("7200_Domination");
+        break;
+      case 8200:
+        setRuneB("7202_Sorcery");
+        break;
+      case 8300:
+        setRuneB("7203_Whimsy");
+        break;
+      case 8400:
+        setRuneB("7204_Resolve");
+        break;
+      default:
+        break;
+    }
   }, []);
 
   return (
@@ -97,7 +246,7 @@ function MatchHistory({ match, debug }) {
               console.log(
                 match.info.participants.filter(
                   (player) => player.summonerName === userName
-                )
+                )[0]
               )
             }
           >
@@ -133,13 +282,13 @@ function MatchHistory({ match, debug }) {
                   <div className="spell">
                     <img
                       className="spell"
-                      src="https://ddragon.leagueoflegends.com/cdn/13.1.1/img/spell/SummonerBoost.png"
+                      src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/spell/${spellA}.png`}
                     />
                   </div>
                   <div className="spell">
                     <img
                       className="spell"
-                      src="https://ddragon.leagueoflegends.com/cdn/13.1.1/img/spell/SummonerBoost.png"
+                      src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/spell/${spellB}.png`}
                     />
                   </div>
                 </div>
@@ -147,13 +296,13 @@ function MatchHistory({ match, debug }) {
                   <div className="rune-main">
                     <img
                       className="rune"
-                      src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/PressTheAttack/PressTheAttack.png"
+                      src={`https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/${runeA}.png`}
                     />
                   </div>
                   <div className="rune">
                     <img
                       className="rune"
-                      src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/7200_Domination.png"
+                      src={`https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/${runeB}.png`}
                     />
                   </div>
                 </div>
@@ -479,7 +628,9 @@ function MatchHistory({ match, debug }) {
           </div>
         </div>
         <div className="detail">
-          <button className="detail-btn"></button>
+          <button
+            className={"detail-btn" + (isWin ? " blue-btn" : " red-btn")}
+          ></button>
         </div>
       </li>
     </>

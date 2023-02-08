@@ -75,7 +75,7 @@ const SummonersContents = () => {
     const LeagueResJson = await leagueRes.json();
     dispatch(setLeagueInfo(LeagueResJson));
     const matchRes = await fetch(
-      `https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonersResJson.puuid}/ids?start=0&count=5&api_key=${API_KEY}`
+      `https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonersResJson.puuid}/ids?start=0&count=15&api_key=${API_KEY}`
     ); // matchV5 소환사 정보에서 불러온 puuid로 해당 소환사의 경기 코드를 불러오는 API rate limit에 걸리는 관계로 0~15로 설정
     const matchResArr = await matchRes.json();
     dispatch(setMatchIdArr(matchResArr));
@@ -87,12 +87,13 @@ const SummonersContents = () => {
         .then((res) => res.json())
         .then((json) => {
           dispatch(setMatchData(json));
+
           //console.log(json.info.participants);
         });
     }
 
     const eachMatchRes = await matchResArr.map((item, index) =>
-      setTimeout(getMatchInfo(item, index), 500)
+      setTimeout(getMatchInfo(item, index), 900)
     ); // 이 Res를 활용해야 하는지?
 
     //마지막 단계
@@ -173,16 +174,10 @@ const SummonersContents = () => {
       dispatch(setUserName(params.summonersName));
     }
   }
-  function check() {
-    const aaa = [2, 1];
-    console.log(Array.isArray(matchData), "잉");
-    console.log(Array.isArray(matchData), "잉");
-    console.log(matchData);
-  }
+
   useEffect(() => {
     ifRefresh();
     fetchAPI();
-    check();
   }, []);
 
   return (
@@ -261,7 +256,9 @@ const SummonersContents = () => {
                       <div className="win-lose">
                         {leagueInfo[0].wins}승 {leagueInfo[0].losses}패
                       </div>
-                      <div className="win-rate">승률{Math.ceil(winRate)}%</div>
+                      <div className="win-rate">
+                        승률{` ${Math.ceil(winRate)}`}%
+                      </div>
                     </div>
                   </div>
                 ) : null}
