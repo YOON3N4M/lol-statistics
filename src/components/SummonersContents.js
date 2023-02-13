@@ -60,7 +60,9 @@ const SummonersContents = () => {
   const [debug, setDebug] = useState(false);
   const API_KEY = "RGAPI-8a9b5d19-a835-4cfe-b16e-fc119d59e7a0";
   const params = useParams();
-  const [isLoading, setIsLoading] = useState(true);
+  const [sortMatch, setSortMatch] = useState([]);
+  const matchQty = 15;
+
   async function fetchAPI() {
     dispatch(clearAll());
     const summonersRes = await fetch(
@@ -75,7 +77,7 @@ const SummonersContents = () => {
     const LeagueResJson = await leagueRes.json();
     dispatch(setLeagueInfo(LeagueResJson));
     const matchRes = await fetch(
-      `https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonersResJson.puuid}/ids?start=0&count=15&api_key=${API_KEY}`
+      `https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonersResJson.puuid}/ids?start=0&count=${matchQty}&api_key=${API_KEY}`
     ); // matchV5 소환사 정보에서 불러온 puuid로 해당 소환사의 경기 코드를 불러오는 API rate limit에 걸리는 관계로 0~15로 설정
     const matchResArr = await matchRes.json();
     dispatch(setMatchIdArr(matchResArr));
@@ -83,7 +85,7 @@ const SummonersContents = () => {
     function getMatchInfo(item, index) {
       fetch(
         `https://asia.api.riotgames.com/lol/match/v5/matches/${matchResArr[index]}?api_key=${API_KEY}`
-      )
+      ) // 각 경기코드로 경기의 상세 정보를 가져오는 API
         .then((res) => res.json())
         .then((json) => {
           dispatch(setMatchData(json));
@@ -96,6 +98,8 @@ const SummonersContents = () => {
       setTimeout(getMatchInfo(item, index), 900)
     ); // 이 Res를 활용해야 하는지?
 
+    console.log(sortMatch);
+    console.log(sortMatch);
     //마지막 단계
     dispatch(setSummonersLoadingFalse());
     dispatch(setLeagueLoadingFalse());
@@ -180,6 +184,15 @@ const SummonersContents = () => {
     fetchAPI();
   }, []);
 
+  useEffect(() => {
+    if (matchData.length !== 0) {
+      setSortMatch(
+        matchData.sort(function (a, b) {
+          return b.info.gameCreation - a.info.gameCreation;
+        })
+      );
+    }
+  }, [matchData]);
   return (
     <>
       {summonersLoading === false && leagueLoading === false ? (
@@ -190,7 +203,7 @@ const SummonersContents = () => {
               <div className="profile-icon-container">
                 <img
                   className="profile-icon"
-                  src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/profileicon/${summonersInfo.profileIconId}.png`}
+                  src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${summonersInfo.profileIconId}.png`}
                   alt=""
                 />
                 <div className="level">
@@ -303,8 +316,8 @@ const SummonersContents = () => {
                 <button onClick={() => setDebug((prev) => !prev)}>Debug</button>
               </div>
               <div className="match-history-container">
-                {matchData.length !== 0
-                  ? matchData.map((match, index) => (
+                {sortMatch.length === matchQty //sortMatch의 길이가 원본인 marchData의 길이(matchQty)와 같을때 렌더링 시작
+                  ? sortMatch.map((match, index) => (
                       <MatchHistory match={match} key={index} debug={debug} />
                     ))
                   : null}

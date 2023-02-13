@@ -24,6 +24,7 @@ function MatchHistory({ match, debug }) {
   const [spellB, setSpellB] = useState();
   const [runeA, setRuneA] = useState();
   const [runeB, setRuneB] = useState();
+
   useEffect(() => {
     /*
   이상하게 피들스틱만 machData의 championName을 그대로 이용하면 API 오류가 발생 대문에 아래와 같은 변경 요망
