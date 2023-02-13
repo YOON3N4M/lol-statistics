@@ -8,9 +8,23 @@ function MatchHistory({ match, debug }) {
   const currentPlayer = match.info.participants.filter(
     (player) => player.summonerName === userName
   )[0];
+  const teamA = match.info.participants.filter(
+    (player) => player.teamId === currentPlayer.teamId
+  ); // 현재 검색된 플레이어의 팀
+  const teamTotalKills =
+    teamA[0].kills +
+    teamA[1].kills +
+    teamA[2].kills +
+    teamA[3].kills +
+    teamA[4].kills;
+  function testFn() {
+    console.log(teamTotalKills);
+  }
+
   const isWin = currentPlayer.win;
+  const [gameType, setGameType] = useState("");
   const [fixChampion, setFixChampion] = useState("");
-  const [kda, setKda] = useState();
+  const [kda, setKda] = useState("");
   const [itemList, setItemList] = useState({
     item0: false,
     item1: false,
@@ -20,10 +34,10 @@ function MatchHistory({ match, debug }) {
     item5: false,
     item6: false, // 장신구
   });
-  const [spellA, setSpellA] = useState();
-  const [spellB, setSpellB] = useState();
-  const [runeA, setRuneA] = useState();
-  const [runeB, setRuneB] = useState();
+  const [spellA, setSpellA] = useState("");
+  const [spellB, setSpellB] = useState("");
+  const [runeA, setRuneA] = useState("");
+  const [runeB, setRuneB] = useState("");
 
   useEffect(() => {
     /*
@@ -88,6 +102,7 @@ function MatchHistory({ match, debug }) {
         return { ...prev, item6: true };
       });
     }
+    // 스펠
     switch (currentPlayer.summoner1Id) {
       case 11:
         setSpellA("SummonerSmite");
@@ -235,6 +250,58 @@ function MatchHistory({ match, debug }) {
       default:
         break;
     }
+    //큐 타입 (게임 타입)
+    switch (match.info.queueId) {
+      case 400:
+        setGameType("일반");
+        break;
+      case 420:
+        setGameType("솔랭");
+        break;
+      case 430:
+        setGameType("일반");
+        break;
+      case 440:
+        setGameType("자유 5:5 랭크");
+        break;
+      case 450:
+        setGameType("무작위 총력전");
+        break;
+      case 700:
+        setGameType("격전");
+        break;
+      case 830:
+        setGameType("입문");
+        break;
+      case 840:
+        setGameType("초보");
+        break;
+      case 850:
+        setGameType("중급");
+        break;
+      case 900:
+        setGameType("모두 무작위 U.R.F.");
+        break;
+      case 920:
+        setGameType("포로왕");
+        break;
+      case 1020:
+        setGameType("단일 챔피언");
+        break;
+      case 1300:
+        setGameType("돌격 넥서스");
+        break;
+      case 1400:
+        setGameType("궁극기 주문서");
+        break;
+      case 2000:
+      case 2010:
+      case 2020:
+        setGameType("튜토리얼");
+        break;
+      default:
+        break;
+    }
   }, []);
 
   return (
@@ -254,15 +321,14 @@ function MatchHistory({ match, debug }) {
             current
           </button>
           <button onClick={() => console.log(match)}>matchData</button>
+          <button onClick={testFn}>test</button>
         </>
       ) : null}
 
       <li className={"match" + (isWin ? " win" : " lose")}>
         <div className="game-container">
           <div className="game">
-            <div className={"type" + (isWin ? "" : " red")}>
-              {match.info.gameMode === "CLASSIC" ? "솔랭" : "일반"}
-            </div>
+            <div className={"type" + (isWin ? "" : " red")}>{gameType}</div>
             <div className="time-stamp">-시간 전</div>
             <div className="small-border"></div>
             <div className="result">{isWin ? "승리" : "패배"}</div>
@@ -273,23 +339,28 @@ function MatchHistory({ match, debug }) {
           <div className="game-info">
             <div className="top-row">
               <div className="champion">
-                <div className="">
-                  <img
-                    className="icon"
-                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${fixChampion}.png`}
-                  />
+                <div className="icon-box">
+                  <div>
+                    <img
+                      className="icon"
+                      src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/${fixChampion}.png`}
+                    />
+                    <span className="champion-level">
+                      {currentPlayer.champLevel}
+                    </span>
+                  </div>
                 </div>
                 <div className="spells">
                   <div className="spell">
                     <img
                       className="spell"
-                      src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/spell/${spellA}.png`}
+                      src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/spell/${spellA}.png`}
                     />
                   </div>
                   <div className="spell">
                     <img
                       className="spell"
-                      src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/spell/${spellB}.png`}
+                      src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/spell/${spellB}.png`}
                     />
                   </div>
                 </div>
@@ -320,9 +391,17 @@ function MatchHistory({ match, debug }) {
                 </div>
               </div>
               <div className="stats">
-                <div className="p-kill">킬관여 20%</div>
+                <div className="p-kill">
+                  킬관여{" "}
+                  {Math.round(
+                    ((currentPlayer.kills + currentPlayer.assists) /
+                      teamTotalKills) *
+                      100
+                  )}
+                  %
+                </div>
                 <div className="ward">
-                  제어와드 {currentPlayer.detectorWardsPlaced}
+                  제어와드 {currentPlayer.visionWardsBoughtInGame}
                 </div>
                 <div className="cs">
                   cs{" "}
@@ -350,7 +429,7 @@ function MatchHistory({ match, debug }) {
                     >
                       {itemList.item0 ? (
                         <img
-                          src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${currentPlayer.item0}.png`}
+                          src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/item/${currentPlayer.item0}.png`}
                         />
                       ) : null}
                     </div>
@@ -363,7 +442,7 @@ function MatchHistory({ match, debug }) {
                     >
                       {itemList.item1 ? (
                         <img
-                          src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${currentPlayer.item1}.png`}
+                          src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/item/${currentPlayer.item1}.png`}
                         />
                       ) : null}
                     </div>
@@ -376,7 +455,7 @@ function MatchHistory({ match, debug }) {
                     >
                       {itemList.item2 ? (
                         <img
-                          src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${currentPlayer.item2}.png`}
+                          src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/item/${currentPlayer.item2}.png`}
                         />
                       ) : null}
                     </div>
@@ -389,7 +468,7 @@ function MatchHistory({ match, debug }) {
                     >
                       {itemList.item3 ? (
                         <img
-                          src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${currentPlayer.item3}.png`}
+                          src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/item/${currentPlayer.item3}.png`}
                         />
                       ) : null}
                     </div>
@@ -402,7 +481,7 @@ function MatchHistory({ match, debug }) {
                     >
                       {itemList.item4 ? (
                         <img
-                          src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${currentPlayer.item4}.png`}
+                          src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/item/${currentPlayer.item4}.png`}
                         />
                       ) : null}
                     </div>
@@ -415,7 +494,7 @@ function MatchHistory({ match, debug }) {
                     >
                       {itemList.item5 ? (
                         <img
-                          src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${currentPlayer.item5}.png`}
+                          src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/item/${currentPlayer.item5}.png`}
                         />
                       ) : null}
                     </div>
@@ -429,7 +508,7 @@ function MatchHistory({ match, debug }) {
                   >
                     {itemList.item6 ? (
                       <img
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${currentPlayer.item6}.png`}
+                        src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/item/${currentPlayer.item6}.png`}
                       />
                     ) : null}
                   </div>
@@ -442,7 +521,7 @@ function MatchHistory({ match, debug }) {
               <li>
                 <div className="part-icon">
                   <img
-                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[0].championName}.png`}
+                    src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/${match.info.participants[0].championName}.png`}
                     alt={match.info.participants[0].championName}
                   />
                 </div>
@@ -460,7 +539,7 @@ function MatchHistory({ match, debug }) {
                 {" "}
                 <div className="part-icon">
                   <img
-                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[1].championName}.png`}
+                    src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/${match.info.participants[1].championName}.png`}
                     alt={match.info.participants[1].championName}
                   />{" "}
                 </div>
@@ -478,7 +557,7 @@ function MatchHistory({ match, debug }) {
                 {" "}
                 <div className="part-icon">
                   <img
-                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[2].championName}.png`}
+                    src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/${match.info.participants[2].championName}.png`}
                     alt={match.info.participants[2].championName}
                   />{" "}
                 </div>
@@ -496,7 +575,7 @@ function MatchHistory({ match, debug }) {
                 {" "}
                 <div className="part-icon">
                   <img
-                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[3].championName}.png`}
+                    src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/${match.info.participants[3].championName}.png`}
                     alt={match.info.participants[3].championName}
                   />{" "}
                 </div>
@@ -514,7 +593,7 @@ function MatchHistory({ match, debug }) {
                 {" "}
                 <div className="part-icon">
                   <img
-                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[4].championName}.png`}
+                    src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/${match.info.participants[4].championName}.png`}
                     alt={match.info.participants[4].championName}
                   />{" "}
                 </div>
@@ -534,7 +613,7 @@ function MatchHistory({ match, debug }) {
               <li>
                 <div className="part-icon">
                   <img
-                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[5].championName}.png`}
+                    src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/${match.info.participants[5].championName}.png`}
                     alt={match.info.participants[5].championName}
                   />{" "}
                 </div>
@@ -553,7 +632,7 @@ function MatchHistory({ match, debug }) {
                 {" "}
                 <div className="part-icon">
                   <img
-                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[6].championName}.png`}
+                    src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/${match.info.participants[6].championName}.png`}
                     alt={match.info.participants[6].championName}
                   />{" "}
                 </div>
@@ -572,7 +651,7 @@ function MatchHistory({ match, debug }) {
                 {" "}
                 <div className="part-icon">
                   <img
-                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[7].championName}.png`}
+                    src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/${match.info.participants[7].championName}.png`}
                     alt={match.info.participants[7].championName}
                   />{" "}
                 </div>
@@ -591,7 +670,7 @@ function MatchHistory({ match, debug }) {
                 {" "}
                 <div className="part-icon">
                   <img
-                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[8].championName}.png`}
+                    src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/${match.info.participants[8].championName}.png`}
                     alt={match.info.participants[8].championName}
                   />{" "}
                 </div>
@@ -610,7 +689,7 @@ function MatchHistory({ match, debug }) {
                 {" "}
                 <div className="part-icon">
                   <img
-                    src={`https://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.info.participants[9].championName}.png`}
+                    src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/${match.info.participants[9].championName}.png`}
                     alt={match.info.participants[9].championName}
                   />{" "}
                 </div>

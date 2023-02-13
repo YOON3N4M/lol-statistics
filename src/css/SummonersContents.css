@@ -1,15 +1,29 @@
 ul {
   padding: 0 0;
+  margin: 0px;
 }
 li {
   list-style: none;
 }
 
+.alarm {
+  left: 40%;
+  top: 3rem;
+  position: fixed;
+  width: 300px;
+  line-height: 50px;
+  background-color: black;
+  border-radius: 4px;
+  color: white;
+  text-align: center;
+  z-index: 100;
+}
 .contents-header {
   background-color: white;
   width: 100%;
   height: 273-45px;
   padding-bottom: 25px;
+  padding-top: 16px;
 }
 .contents-body {
   width: 100%;
@@ -298,7 +312,16 @@ li {
   line-height: 28px;
   cursor: pointer;
 }
-
+.selected {
+  font-weight: bold;
+  display: block;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  background: #ecf2ff;
+  color: #4171d6;
+  line-height: 28px;
+}
 .match-history-summary {
   display: flex;
   text-align: left;
@@ -310,12 +333,80 @@ li {
   height: 164px;
   background-color: white;
 }
+.sum-stats {
+  width: 222px;
+}
+.sum-win-lose {
+  font-size: 12px;
+  color: #758592;
+}
+.ratio-kda {
+  display: flex;
+}
+.sum-info {
+  margin-left: 32px;
+}
+.sum-info > .k-d-a {
+  font-size: 12px;
+  letter-spacing: 0px;
+}
+
+.sum-info > .k-d-a > span {
+  color: #758592;
+}
+.sum-ratio {
+  margin-top: 2px;
+  line-height: 26px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #202d37;
+}
+.kill-participantion {
+  line-height: 16px;
+  margin-top: 2px;
+  font-size: 12px;
+  color: #d31a45;
+}
+.chart {
+  display: inline-block;
+  width: 88px;
+  height: 88px;
+  background-color: red;
+}
+.champions {
+  width: 222px;
+  margin-left: 16px;
+}
+.title {
+  line-height: 16px;
+  font-size: 12px;
+  color: #758592;
+}
+.sum-li {
+  height: 24px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+}
+.sum-li > img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+.sum-li > .win-lose {
+  font-size: 11px;
+  position: relative;
+}
+
+.positions {
+  width: 222px;
+}
 .match-history-container {
   margin-top: 8px;
 }
 
 .match {
-  width: 740px;
   height: 96px;
   margin-bottom: 8px;
   border-radius: 4px;
@@ -400,12 +491,30 @@ li {
   display: flex;
   align-items: center;
 }
+.icon-box > div {
+  position: relative;
+  width: 48px;
+  height: 48px;
+}
 .icon {
   border-radius: 50%;
   width: 48px;
   height: 48px;
 }
-
+.champion-level {
+  position: relative;
+  right: -29px;
+  bottom: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  font-size: 11px;
+  border-radius: 50%;
+  color: rgb(255, 255, 255);
+  background: rgb(32, 45, 55);
+}
 .spell {
   width: 22px;
   height: 22px;
@@ -556,4 +665,55 @@ li {
 }
 .blue-btn {
   background-color: #d5e3ff;
+}
+
+.fadein {
+  animation: fadein 0.3s ease;
+  -moz-animation: fadein 0.3s ease;
+  /* Firefox */
+  -webkit-animation: fadein 0.3s ease;
+  /* Safari and Chrome */
+  -o-animation: fadein 0.3s ease;
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 100%;
+  }
+}
+
+@-moz-keyframes fadein {
+  /* Firefox */
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 10%;
+  }
+}
+
+@-webkit-keyframes fadein {
+  /* Safari and Chrome */
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 100%;
+  }
+}
+
+@-o-keyframes fadein {
+  /* Opera */
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 100%;
+  }
 }

@@ -61,7 +61,13 @@ const SummonersContents = () => {
   const API_KEY = "RGAPI-8a9b5d19-a835-4cfe-b16e-fc119d59e7a0";
   const params = useParams();
   const [sortMatch, setSortMatch] = useState([]);
-  const matchQty = 15;
+  const matchQty = 10;
+  const [alarm, setAlarm] = useState(false); // 미구현 알림
+
+  function alarmFn() {
+    setAlarm(true);
+    setTimeout(() => setAlarm(false), 3000);
+  }
 
   async function fetchAPI() {
     dispatch(clearAll());
@@ -199,6 +205,10 @@ const SummonersContents = () => {
         <>
           {" "}
           <div className="contents-header">
+            {alarm ? (
+              <div className="alarm fadein">현재 지원되지 않는 기능입니다.</div>
+            ) : null}
+
             <div className="wrapper">
               <div className="profile-icon-container">
                 <img
@@ -223,7 +233,9 @@ const SummonersContents = () => {
                   </ul>
                 </div>
                 <div className="name">{summonersInfo.name}</div>
-                <button className="refresh-button">전적 갱신</button>
+                <button onClick={alarmFn} className="refresh-button">
+                  전적 갱신
+                </button>
                 <div className="last-update">
                   <span>최근 업데이트: 방금 전</span>
                 </div>
@@ -236,7 +248,9 @@ const SummonersContents = () => {
                 <span className="info-list-item-blue">종합</span>
               </li>
               <li>
-                <span className="info-list-item-green">인게임 정보</span>
+                <span onClick={alarmFn} className="info-list-item-green">
+                  인게임 정보
+                </span>
               </li>
             </ul>
           </div>
@@ -295,25 +309,63 @@ const SummonersContents = () => {
                   <div className="champion-box"></div>
                   <div className="champion-box"></div>
                   <div className="champion-box"></div>
-                  <div className="more">더 보기 + 다른 시즌 보기 </div>
+                  <div onClick={alarmFn} className="more">
+                    더 보기 + 다른 시즌 보기{" "}
+                  </div>
                 </div>
               </div>
             </div>
             <div className="right-contents">
               <div className="match-history-tab">
                 <ul>
-                  <li className="match-history-tab-item">전체</li>
-                  <li className="match-history-tab-item">솔로랭크</li>
-                  <li className="match-history-tab-item">자유랭크</li>
-                  <li className="match-history-tab-item">큐 타입</li>
+                  <li className="match-history-tab-item selected">전체</li>
+                  <li onClick={alarmFn} className="match-history-tab-item">
+                    솔로랭크
+                  </li>
+                  <li onClick={alarmFn} className="match-history-tab-item">
+                    자유랭크
+                  </li>
+                  <li onClick={alarmFn} className="match-history-tab-item">
+                    큐 타입
+                  </li>
                 </ul>
                 <div className="검색창"></div>
               </div>
               <div className="match-history-summary">
-                <button onClick={() => console.log(matchData)}>
-                  get matchData
-                </button>
-                <button onClick={() => setDebug((prev) => !prev)}>Debug</button>
+                <div className="sum-stats">
+                  <div className="sum-win-lose">20전 7승 13패</div>
+                  <div className="ratio-kda">
+                    <div className="chart"></div>
+                    <div className="sum-info">
+                      <div className="k-d-a">
+                        <span>7.8 </span>/<span className="death"> 6.3 </span>/
+                        <span> 8.5</span>
+                      </div>
+                      <div className="sum-ratio">2.59:1</div>
+                      <div className="kill-participantion">킬관여 49%</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="champions">
+                  <div className="title">
+                    플레이한 챔피언 (최근 {matchQty}게임)
+                  </div>
+                  <ul>
+                    <li className="sum-li">
+                      <img src="https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/Ivern.png"></img>
+                      <div className="win-lose">75% (3승1패) 8.4 평점</div>
+                    </li>
+                    <li className="sum-li">
+                      <img src="https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/Ivern.png"></img>
+                      <div className="win-lose">75% (3승1패) 8.4 평점</div>
+                    </li>
+                    <li className="sum-li">
+                      <img src="https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/Ivern.png"></img>
+                      <div className="win-lose">75% (3승1패) 8.4 평점</div>
+                    </li>
+                  </ul>
+                </div>
+                <div className="positions"></div>
               </div>
               <div className="match-history-container">
                 {sortMatch.length === matchQty //sortMatch의 길이가 원본인 marchData의 길이(matchQty)와 같을때 렌더링 시작
@@ -322,6 +374,10 @@ const SummonersContents = () => {
                     ))
                   : null}
               </div>
+              <button onClick={() => console.log(matchData)}>
+                get matchData
+              </button>
+              <button onClick={() => setDebug((prev) => !prev)}>Debug</button>
             </div>
           </div>
         </>
