@@ -11,21 +11,21 @@ html, css, javascript, ReactJS, React-router-dom, react-redux<br>
 riot API -- SUMONNERS-V4, LEAGUE-V4, MATCH-V5
 ***
 ## 추가할 기능
-- 탭 쪽에 검색창이 하나 더 필요함.
-- 전적 상단 Summary 부분 추가 해야함. (조회한 전적 중 승률과 플레이를 가장 많이한 챔피언 Top3의 kda 등의 정보 등)
-- 좌측 중단쯤 조회한 전적을 바탕으로 모스트 7의 정보 (전적을 저장하는 db가 없으니 해당 기능은 추가하지 말거나 하더라도 다른 형태로 하는게 좋을 것 같음)
+- 탭 쪽에 검색창이 하나 더 필요합니다.
+- 전적 상단 Summary 부분 추가 해야합니다. (조회한 전적 중 승률과 플레이를 가장 많이한 챔피언 Top3의 kda 등의 정보 등)
+- 좌측 중단쯤 조회한 전적을 바탕으로 모스트 7의 정보 (전적을 저장하는 db가 없으니 해당 기능은 추가하지 말거나 하더라도 다른 형태로 하는게 좋을 것 같습니다.)
 - 네비게이션 탭에도 전적 검색이 가능한 작은 검색창 추가하기
-- 메인화면이 허전하니 프로 선수들의 전적으로 바로 갈 수 있는 기능을 추가하면 좋을 것 같음.
+- 메인화면이 허전하니 프로 선수들의 전적으로 바로 갈 수 있는 기능을 추가하면 좋을 것 같습니다.
 
 ***
 ## 문제점 & 수정할 점
-- 게임 시간이 "00분 00초"가 아닌 "00분"으로만 출력되는데 전자의 방식으로 변경 해야함.
-- 전적의 각 게임이 몇시간 전에 한 기록인지 출력되게 해야 함.
+- 게임 시간이 "00분 00초"가 아닌 "00분"으로만 출력되는데 전자의 방식으로 변경 해야합니다.
+- 전적의 각 게임이 몇시간 전에 한 기록인지 출력되게 해야 합니다.
 - 전적부분의 참가자 10명의 챔피언 아이콘과 닉네임이 출력되는 부분에 피들스틱 챔피언의 이미지가 정상적으로 로딩되지 않는 문제
 - 전적의 킬 관여율 부분
 ***
 
-## 해결된 문제
+## 해결된 문제 & 수정/추가된 점
 - #### API MATCH-V5의 응답이 순서대로 나오지 않는 문제 (=전적이 뒤죽박죽 나옴)<br><br>
   > API의 응답을 순서대로 처리하는 방법을 몰라 임시방편으로 sortMatch라는 새로운 상태를 만들고 matchData의 게임들을 각 게임의 생성시간인 matchData[x].info.gamecreation을 비교하여 내림차순으로 정렬하여 sortMatch라는 배열에 새로이 할당해준후 이후 전적의 렌더링부분을 sortMatch를 활용하여 출력되게 하였습니다.
  
@@ -35,7 +35,7 @@ riot API -- SUMONNERS-V4, LEAGUE-V4, MATCH-V5
 ```javascript
  function onSubmit(e) {
     e.preventDefault();
-    // 닉네임이 두 글자일 경우 정상적인 소환사 조회가 불가능하여, 사이에 공백을 넣어서 처리함.
+    // 닉네임이 두 글자일 경우 정상적인 소환사 조회가 불가능하여, 사이에 공백을 넣어서 처리했습니다.
     if (username.length === 2) {
       const usernameRe = `${username[0]} ${username[1]}`;
       dispatch(setUserName(usernameRe));
@@ -46,6 +46,19 @@ riot API -- SUMONNERS-V4, LEAGUE-V4, MATCH-V5
     }
   }
   ```
-  - #### MatchHistory.js에서 각 게임별 각종 정보들을 useState로 관리함
+  - #### MatchHistory.js에서 각 게임별 각종 정보들을 useState로 관리합니다.
   > 각 경기별 챔피언, 룬, 스펠, 아이템의 이미지와 kda, 게임타입(일반,솔로랭크,자유랭크 등)
+  - #### MatchHistory.js에서 불러온 경기 기록중 검색한 닉네임과 일치하는 참가자를 추려내 SummonersContents.js로 보냅니다. 즉 검색된 플레이어의 게임 상세 정보를 활용 할 수 있습니다.
+ > - SummonersContents.js
+ > ```javascript
+ > const [currentMatch, setCurrentMatch] = useState([]);
+ > ```
+ > - MatchHistory.js
+ > ```
+ >  setCurrentMatch((prev) => [...prev, currentPlayer]);
+ > ```
+ > - currentMatch <br>
+ > <img width="575" alt="image" src="https://user-images.githubusercontent.com/115640584/218682103-37f47d03-95ae-4538-9c45-68fe597a2b2e.png"><br>
+ > 각 객체엔 각 경기별로 플레이한 챔피언 이름, 킬 수, 데스 수, 어시스트 수, 제어와드 구매횟수 등 다양한 정보가 들어있으며 이 정보들을 토대로 조회한 경기중 가장 많이 플레이한 챔피언,
+ > 조회한 경기들의 킬, 데스, 어시스트의 합산 평균 등과 같은 기능을 제작할 수 있습니다.
 ***
