@@ -46,19 +46,19 @@ riot API -- SUMONNERS-V4, LEAGUE-V4, MATCH-V5
   >  }
   > }
   > ```
-  - #### MatchHistory.js에서 각 게임별 각종 정보들을 useState로 관리합니다.
+- #### MatchHistory.js에서 각 게임별 각종 정보들을 useState로 관리합니다.
   > 각 경기별 챔피언, 룬, 스펠, 아이템의 이미지와 kda, 게임타입(일반,솔로랭크,자유랭크 등)
-  - #### MatchHistory.js에서 불러온 경기 기록중 검색한 닉네임과 일치하는 참가자를 추려내 SummonersContents.js로 보냅니다. 즉 검색된 플레이어의 게임 상세 정보를 활용 할 수 있습니다.
- > - SummonersContents.js
- > ```javascript
- > const [currentMatch, setCurrentMatch] = useState([]);
- > ```
- > - MatchHistory.js
- > ```
- >  setCurrentMatch((prev) => [...prev, currentPlayer]);
- > ```
- > - currentMatch <br>
- > <img width="575" alt="image" src="https://user-images.githubusercontent.com/115640584/218682103-37f47d03-95ae-4538-9c45-68fe597a2b2e.png"><br>
- > 각 객체엔 각 경기별로 플레이한 챔피언 이름, 킬 수, 데스 수, 어시스트 수, 제어와드 구매횟수 등 다양한 정보가 들어있으며 이 정보들을 토대로 조회한 경기중 가장 많이 플레이한 챔피언,
- > 조회한 경기들의 킬, 데스, 어시스트의 합산 평균 등과 같은 기능을 제작할 수 있습니다.
+- #### MatchHistory.js에서 불러온 경기 기록중 검색한 닉네임과 일치하는 참가자를 추려내 SummonersContents.js로 보냅니다. 즉 검색된 플레이어의 게임 상세 정보를 활용 할 수 있습니다.
+  > - SummonersContents.js
+  > ```javascript
+  > const [currentMatch, setCurrentMatch] = useState([]);
+  > ```
+  > - MatchHistory.js
+  > ```
+  >  setCurrentMatch((prev) => [...prev, currentPlayer]);
+  > ```
+  > - currentMatch <br>
+  > <img width="575" alt="image" src="https://user-images.githubusercontent.com/115640584/218682103-37f47d03-95ae-4538-9c45-68fe597a2b2e.png"><br>
+  > 각 객체엔 각 경기별로 플레이한 챔피언 이름, 킬 수, 데스 수, 어시스트 수, 제어와드 구매횟수 등 다양한 정보가 들어있으며 이 정보들을 토대로 조회한 경기중 가장 많이 플레이한 챔피언,
+  > 조회한 경기들의 킬, 데스, 어시스트의 합산 평균 등과 같은 기능을 제작할 수 있습니다.
 ***
