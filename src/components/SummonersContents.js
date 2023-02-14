@@ -29,6 +29,7 @@ import MASTER from "../img/tier/master.png";
 import GRANDMASTER from "../img/tier/grandmaster.png";
 import CHALLENGER from "../img/tier/challenger.png";
 import MatchHistory from "./MatchHistory";
+import Summary from "./Summary";
 
 const SummonersContents = () => {
   const dispatch = useDispatch();
@@ -61,8 +62,28 @@ const SummonersContents = () => {
   const API_KEY = "RGAPI-8a9b5d19-a835-4cfe-b16e-fc119d59e7a0";
   const params = useParams();
   const [sortMatch, setSortMatch] = useState([]);
-  const matchQty = 10;
+  const matchQty = 15;
   const [alarm, setAlarm] = useState(false); // 미구현 알림
+  const [currentMatch, setCurrentMatch] = useState([]);
+  const [byChampion, setByChampion] = useState({});
+  const [byChampionArr, setByChampionArr] = useState([]);
+  const [totalInfo, setTotalInfo] = useState({
+    totalKills: 0,
+    totalDeaths: 0,
+    totalAssists: 0,
+  });
+  const [totalKillPart, setTotalKillPart] = useState([]);
+  const [totalKillPartNum, setTotalKillPartNum] = useState(0);
+  function groupBy(objectArray, property) {
+    return objectArray.reduce(function (acc, obj) {
+      var key = obj[property];
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(obj);
+      return acc;
+    }, {});
+  }
 
   function alarmFn() {
     setAlarm(true);
@@ -191,7 +212,7 @@ const SummonersContents = () => {
   }, []);
 
   useEffect(() => {
-    if (matchData.length !== 0) {
+    if (matchData.length === matchQty) {
       setSortMatch(
         matchData.sort(function (a, b) {
           return b.info.gameCreation - a.info.gameCreation;
@@ -199,6 +220,45 @@ const SummonersContents = () => {
       );
     }
   }, [matchData]);
+
+  useEffect(() => {
+    setByChampion(groupBy(currentMatch, "championName"));
+    const kills = currentMatch.reduce(function add(sum, item) {
+      return sum + item.kills;
+    }, 0);
+    const deaths = currentMatch.reduce(function add(sum, item) {
+      return sum + item.deaths;
+    }, 0);
+    const assists = currentMatch.reduce(function add(sum, item) {
+      return sum + item.assists;
+    }, 0);
+    setTotalInfo((prev) => {
+      return { ...prev, totalKills: kills / matchQty };
+    });
+    setTotalInfo((prev) => {
+      return { ...prev, totalDeaths: deaths / matchQty };
+    });
+    setTotalInfo((prev) => {
+      return { ...prev, totalAssists: assists / matchQty };
+    });
+  }, [currentMatch]);
+
+  useEffect(() => {
+    setByChampionArr(
+      Object.entries(byChampion).sort(function (a, b) {
+        return b[1].length - a[1].length;
+      })
+    );
+  }, [byChampion]);
+  useEffect(() => {
+    if (totalKillPart.length !== 0) {
+      const a = totalKillPart.reduce(function add(sum, item) {
+        return sum + item;
+      }, 0);
+      setTotalKillPartNum(a);
+    }
+  }, [totalKillPart]);
+
   return (
     <>
       {summonersLoading === false && leagueLoading === false ? (
@@ -332,45 +392,63 @@ const SummonersContents = () => {
                 <div className="검색창"></div>
               </div>
               <div className="match-history-summary">
-                <div className="sum-stats">
-                  <div className="sum-win-lose">20전 7승 13패</div>
-                  <div className="ratio-kda">
-                    <div className="chart"></div>
-                    <div className="sum-info">
-                      <div className="k-d-a">
-                        <span>7.8 </span>/<span className="death"> 6.3 </span>/
-                        <span> 8.5</span>
+                {totalKillPart.length !== 0 ? (
+                  <>
+                    <div className="sum-stats">
+                      <div className="sum-win-lose">{matchQty}전 7승 13패</div>
+                      <div className="ratio-kda">
+                        <div className="chart"></div>
+                        <div className="sum-info">
+                          <div className="k-d-a">
+                            <span>{totalInfo.totalKills}</span>/
+                            <span className="death">
+                              {" "}
+                              {totalInfo.totalDeaths}{" "}
+                            </span>
+                            /<span> {totalInfo.totalAssists}</span>
+                          </div>
+                          <div className="sum-ratio">
+                            {(
+                              (totalInfo.totalKills + totalInfo.totalAssists) /
+                              totalInfo.totalDeaths
+                            ).toFixed(2)}
+                            :1
+                          </div>
+                          <div className="kill-participantion">
+                            킬관여 {Math.round(totalKillPartNum / matchQty)}%
+                          </div>
+                        </div>
                       </div>
-                      <div className="sum-ratio">2.59:1</div>
-                      <div className="kill-participantion">킬관여 49%</div>
                     </div>
-                  </div>
-                </div>
-                <div className="champions">
-                  <div className="title">
-                    플레이한 챔피언 (최근 {matchQty}게임)
-                  </div>
-                  <ul>
-                    <li className="sum-li">
-                      <img src="https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/Ivern.png"></img>
-                      <div className="win-lose">75% (3승1패) 8.4 평점</div>
-                    </li>
-                    <li className="sum-li">
-                      <img src="https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/Ivern.png"></img>
-                      <div className="win-lose">75% (3승1패) 8.4 평점</div>
-                    </li>
-                    <li className="sum-li">
-                      <img src="https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/Ivern.png"></img>
-                      <div className="win-lose">75% (3승1패) 8.4 평점</div>
-                    </li>
-                  </ul>
-                </div>
-                <div className="positions"></div>
+                    <div className="champions">
+                      <div className="title">
+                        플레이한 챔피언 (최근 {matchQty}게임)
+                      </div>
+                      <ul style={{ marginTop: "8px" }}>
+                        {byChampionArr.length !== 0
+                          ? byChampionArr
+                              .slice(0, 3)
+                              .map((champion) => (
+                                <Summary champion={champion} />
+                              ))
+                          : null}
+                      </ul>
+                    </div>
+                    <div className="positions"></div>
+                  </>
+                ) : null}
               </div>
               <div className="match-history-container">
                 {sortMatch.length === matchQty //sortMatch의 길이가 원본인 marchData의 길이(matchQty)와 같을때 렌더링 시작
                   ? sortMatch.map((match, index) => (
-                      <MatchHistory match={match} key={index} debug={debug} />
+                      <MatchHistory
+                        currentMatch={currentMatch}
+                        setCurrentMatch={setCurrentMatch}
+                        match={match}
+                        key={index}
+                        debug={debug}
+                        setTotalKillPart={setTotalKillPart}
+                      />
                     ))
                   : null}
               </div>
@@ -378,6 +456,7 @@ const SummonersContents = () => {
                 get matchData
               </button>
               <button onClick={() => setDebug((prev) => !prev)}>Debug</button>
+              <button onClick={() => console.log(byChampionArr)}>test</button>
             </div>
           </div>
         </>

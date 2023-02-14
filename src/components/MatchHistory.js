@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
-function MatchHistory({ match, debug }) {
+function MatchHistory({
+  match,
+  debug,
+  currentMatch,
+  setCurrentMatch,
+  setTotalKillPart,
+}) {
   const { userName } = useSelector((state) => ({
     userName: state.summonersInfo.userName,
   }));
   const currentPlayer = match.info.participants.filter(
     (player) => player.summonerName === userName
   )[0];
+
   const teamA = match.info.participants.filter(
     (player) => player.teamId === currentPlayer.teamId
   ); // 현재 검색된 플레이어의 팀
@@ -17,6 +24,10 @@ function MatchHistory({ match, debug }) {
     teamA[2].kills +
     teamA[3].kills +
     teamA[4].kills;
+  const killPart = Math.round(
+    ((currentPlayer.kills + currentPlayer.assists) / teamTotalKills) * 100
+  );
+
   function testFn() {
     console.log(teamTotalKills);
   }
@@ -302,6 +313,9 @@ function MatchHistory({ match, debug }) {
       default:
         break;
     }
+
+    setCurrentMatch((prev) => [...prev, currentPlayer]);
+    setTotalKillPart((prev) => [...prev, killPart]);
   }, []);
 
   return (

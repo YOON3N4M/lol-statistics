@@ -232,6 +232,7 @@ li {
 }
 .win-lose {
   line-height: 26px;
+  color: #9aa4af;
 }
 .win-rate {
   margin-top: 2px;
@@ -465,6 +466,15 @@ li {
 }
 .red {
   color: #d31a45 !important;
+}
+.sky {
+  color: #0093ff;
+}
+.mint {
+  color: #00bba3;
+}
+.orange {
+  color: #f06f00;
 }
 .red-item {
   background-color: #ffbac3;
