@@ -215,10 +215,12 @@ const SummonersContents = () => {
   }
 
   useEffect(() => {
+    setCurrentWins(-1);
+    setTotalKillPartNum(0);
     setSortMatch([]);
     ifRefresh();
     fetchAPI();
-  }, []);
+  }, [params]);
 
   useEffect(() => {
     if (matchData.length === matchQty && leagueLoading === false) {
@@ -513,13 +515,15 @@ const SummonersContents = () => {
                     ))
                   : null}
               </div>
-              <button onClick={() => console.log(matchData)}>
+              {/*  디버그용 버튼들
+                <button onClick={() => console.log(matchData)}>
                 get matchData
               </button>
               <button onClick={() => setDebug((prev) => !prev)}>Debug</button>
               <button onClick={() => console.log(currentWins / 15)}>
                 test
               </button>
+              */}
             </div>
           </div>
         </>
