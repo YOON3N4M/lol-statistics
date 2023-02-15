@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/lol-statistics/static/css/main.a02dc983.css",
-    "main.js": "/lol-statistics/static/js/main.b24fb3a6.js",
+    "main.css": "/lol-statistics/static/css/main.7e20eb83.css",
+    "main.js": "/lol-statistics/static/js/main.3fa392a7.js",
     "static/media/challenger.png": "/lol-statistics/static/media/challenger.1b2a2722c1428e5a5820.png",
     "static/media/grandmaster.png": "/lol-statistics/static/media/grandmaster.ad4f1212548c4263b084.png",
     "static/media/diamond.png": "/lol-statistics/static/media/diamond.8cad15591b6bba3cac86.png",
@@ -9,6 +9,8 @@
     "static/media/gold.png": "/lol-statistics/static/media/gold.49b073ce525f11eda30e.png",
     "static/media/platinum.png": "/lol-statistics/static/media/platinum.2c393b4029e10bb483d5.png",
     "static/media/silver.png": "/lol-statistics/static/media/silver.ce4847a85c43a28d331d.png",
+    "static/media/geng.png": "/lol-statistics/static/media/geng.6cf1536c12af4380ae4c.png",
+    "static/media/t1.png": "/lol-statistics/static/media/t1.285ec1cc4411cf4cc3ab.png",
     "static/media/bronze.png": "/lol-statistics/static/media/bronze.f700c10f67f019c348f2.png",
     "static/media/iron.png": "/lol-statistics/static/media/iron.8af44ee6da72e590c18c.png",
     "static/media/jg.svg": "/lol-statistics/static/media/jg.80d4ed1c14d52f2c7df193871a853f5c.svg",
@@ -17,11 +19,11 @@
     "static/media/top.svg": "/lol-statistics/static/media/top.081801e60d4d4daac1aadd5e76cb2108.svg",
     "index.html": "/lol-statistics/index.html",
     "static/media/sup.svg": "/lol-statistics/static/media/sup.68c4a4b4d059e5a963cbdb45ba33836d.svg",
-    "main.a02dc983.css.map": "/lol-statistics/static/css/main.a02dc983.css.map",
-    "main.b24fb3a6.js.map": "/lol-statistics/static/js/main.b24fb3a6.js.map"
+    "main.7e20eb83.css.map": "/lol-statistics/static/css/main.7e20eb83.css.map",
+    "main.3fa392a7.js.map": "/lol-statistics/static/js/main.3fa392a7.js.map"
   },
   "entrypoints": [
-    "static/css/main.a02dc983.css",
-    "static/js/main.b24fb3a6.js"
+    "static/css/main.7e20eb83.css",
+    "static/js/main.3fa392a7.js"
   ]
 }
