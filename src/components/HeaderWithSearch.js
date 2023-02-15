@@ -14,18 +14,20 @@ function HeaderWithSearch() {
   }
   function onSubmit(e) {
     e.preventDefault();
-    dispatch(clearAll());
-    // 닉네임이 두 글자일 경우 정상적인 소환사 조회가 불가능하여, 사이에 공백을 넣어서 처리함.
+
+    /* 연속된 검색 동작에서 버그가 생겨서 일단 주석처리
+         dispatch(clearAll());
     if (username.length === 2) {
       const usernameRe = `${username[0]} ${username[1]}`;
       dispatch(setUserName(usernameRe));
-      navigate(`/summoners/kr/${usernameRe}`);
+      navigate(`${process.env.PUBLIC_URL}/summoners/kr/${usernameRe}`);
     } else {
       console.log(username);
       dispatch(setUserName(username));
-      navigate(`/summoners/kr/${username}`);
+      navigate(`${process.env.PUBLIC_URL}/summoners/kr/${username}`);
     }
-    window.location.reload();
+    //window.location.reload(); 깃허브 페이지에서 해당 부분 에러가 남
+    */
   }
 
   return (
