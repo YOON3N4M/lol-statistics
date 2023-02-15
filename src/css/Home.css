@@ -1,6 +1,6 @@
 .home-wrap {
   width: 100%;
-  height: 1500px;
+  height: 1000px;
   background-color: #5383e8;
   display: flex;
   flex-direction: column;
@@ -71,4 +71,71 @@
   border: 0px;
   outline: none;
   font-size: 14px;
+}
+
+.notice {
+  font-size: 28px;
+  color: white;
+  margin-top: 15px;
+}
+.pro-container {
+  margin-top: 40px;
+  width: 800px;
+  height: 464px;
+  background-color: white;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+}
+.pro-header {
+  height: 50px;
+  font-weight: 800;
+  padding-top: 10px;
+  padding-left: 10px;
+  border-bottom: 1px solid #ebeef1;
+}
+.team-container {
+  display: flex;
+}
+.team-left {
+  width: 400px;
+}
+.team-right {
+  width: 400px;
+
+  border-left: 1px solid #ebeef1;
+}
+.team-header {
+  width: 399px;
+  height: 70px;
+  background-color: white;
+  border-bottom: 1px solid #ebeef1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pro {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  padding: 0 40px 0px 40px;
+  border-bottom: 1px solid #ebeef1;
+  cursor: pointer;
+}
+.pro-nick {
+  font-weight: 900;
+  font-size: 30px;
+  margin-left: 75px;
+}
+.pro-name {
+  top: 9px;
+  position: relative;
+  font-weight: 200;
+  left: 3px;
+}
+.t-one {
+  width: 70px;
+}
+.geng {
+  width: 40px;
 }
