@@ -22,19 +22,19 @@ function Summary({ champion }) {
       setColor((prev) => {
         return { ...prev, winRateC: "red" };
       });
-      if (4 > kda >= 3) {
-        setColor((prev) => {
-          return { ...prev, kdaC: "mint" };
-        });
-      } else if (5 > kda >= 4) {
-        setColor((prev) => {
-          return { ...prev, kdaC: "sky" };
-        });
-      } else if (kda >= 5) {
-        setColor((prev) => {
-          return { ...prev, kdaC: "orange" };
-        });
-      }
+    }
+    if (4 > kda && kda >= 3) {
+      setColor((prev) => {
+        return { ...prev, kdaC: "mint" };
+      });
+    } else if (5 > kda && kda >= 4) {
+      setColor((prev) => {
+        return { ...prev, kdaC: "sky" };
+      });
+    } else if (kda >= 5) {
+      setColor((prev) => {
+        return { ...prev, kdaC: "orange" };
+      });
     }
   }, []);
 
@@ -45,7 +45,8 @@ function Summary({ champion }) {
           src={`https://ddragon.leagueoflegends.com/cdn/13.3.1/img/champion/${name}.png`}
         ></img>
         <div className="win-lose">
-          <span className={color.winRateC}>{winRate}% </span>({win}승 {lose}패)
+          <span className={color.winRateC}>{Math.round(winRate)}% </span>({win}
+          승 {lose}패)
           <span className={color.kdaC}> {kda} 평점</span>
         </div>
       </li>

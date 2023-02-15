@@ -30,6 +30,8 @@ import GRANDMASTER from "../img/tier/grandmaster.png";
 import CHALLENGER from "../img/tier/challenger.png";
 import MatchHistory from "./MatchHistory";
 import Summary from "./Summary";
+import Positions from "./Posiotions";
+import MostChampion from "./MostChampion";
 
 const SummonersContents = () => {
   const dispatch = useDispatch();
@@ -74,6 +76,14 @@ const SummonersContents = () => {
   });
   const [totalKillPart, setTotalKillPart] = useState([]);
   const [totalKillPartNum, setTotalKillPartNum] = useState(0);
+  const [currentWins, setCurrentWins] = useState(-1);
+  const [positions, setPositions] = useState({
+    top: 0,
+    jungle: 0,
+    mid: 0,
+    adc: 0,
+    sup: 0,
+  });
   function groupBy(objectArray, property) {
     return objectArray.reduce(function (acc, obj) {
       var key = obj[property];
@@ -125,8 +135,6 @@ const SummonersContents = () => {
       setTimeout(getMatchInfo(item, index), 900)
     ); // 이 Res를 활용해야 하는지?
 
-    console.log(sortMatch);
-    console.log(sortMatch);
     //마지막 단계
     dispatch(setSummonersLoadingFalse());
     dispatch(setLeagueLoadingFalse());
@@ -207,12 +215,13 @@ const SummonersContents = () => {
   }
 
   useEffect(() => {
+    setSortMatch([]);
     ifRefresh();
     fetchAPI();
   }, []);
 
   useEffect(() => {
-    if (matchData.length === matchQty) {
+    if (matchData.length === matchQty && leagueLoading === false) {
       setSortMatch(
         matchData.sort(function (a, b) {
           return b.info.gameCreation - a.info.gameCreation;
@@ -241,6 +250,7 @@ const SummonersContents = () => {
     setTotalInfo((prev) => {
       return { ...prev, totalAssists: assists / matchQty };
     });
+    setCurrentWins(currentMatch.filter((e) => e.win === true).length);
   }, [currentMatch]);
 
   useEffect(() => {
@@ -252,7 +262,8 @@ const SummonersContents = () => {
   }, [byChampion]);
   useEffect(() => {
     if (totalKillPart.length !== 0) {
-      const a = totalKillPart.reduce(function add(sum, item) {
+      const withoutNaN = totalKillPart.filter((item) => isNaN(item) === false);
+      const a = withoutNaN.reduce(function add(sum, item) {
         return sum + item;
       }, 0);
       setTotalKillPartNum(a);
@@ -357,18 +368,20 @@ const SummonersContents = () => {
               </div>
               <div className="most-played">
                 <ul className="most-played-tab">
-                  <li className="most-played-tab-item">S2023 전체</li>
-                  <li className="most-played-tab-item">솔로랭크</li>
-                  <li className="most-played-tab-item">자유랭크</li>
+                  <li className="most-played-tab-item selected">최근게임</li>
+                  <li onClick={alarmFn} className="most-played-tab-item">
+                    솔로랭크
+                  </li>
+                  <li onClick={alarmFn} className="most-played-tab-item">
+                    자유랭크
+                  </li>
                 </ul>
                 <div className="champion-box-container">
-                  <div className="champion-box"></div>
-                  <div className="champion-box"></div>
-                  <div className="champion-box"></div>
-                  <div className="champion-box"></div>
-                  <div className="champion-box"></div>
-                  <div className="champion-box"></div>
-                  <div className="champion-box"></div>
+                  {byChampionArr.length !== 0
+                    ? byChampionArr
+                        .slice(0, 7)
+                        .map((champion) => <MostChampion champion={champion} />)
+                    : null}
                   <div onClick={alarmFn} className="more">
                     더 보기 + 다른 시즌 보기{" "}
                   </div>
@@ -395,17 +408,59 @@ const SummonersContents = () => {
                 {totalKillPart.length !== 0 ? (
                   <>
                     <div className="sum-stats">
-                      <div className="sum-win-lose">{matchQty}전 7승 13패</div>
+                      <div className="sum-win-lose">
+                        {matchQty}전 {currentWins}승 {matchQty - currentWins}패
+                      </div>
                       <div className="ratio-kda">
-                        <div className="chart"></div>
+                        <div className="chart">
+                          {currentWins !== -1 ? (
+                            <>
+                              <div className="text">
+                                <strong>
+                                  {Math.round((currentWins / matchQty) * 100)}%
+                                </strong>
+                              </div>
+                              <div style={{ width: "88px", height: "88px" }}>
+                                <svg viewBox="0 0 200 200">
+                                  <circle
+                                    cx="100"
+                                    cy="100"
+                                    r="80"
+                                    fill="none"
+                                    stroke="#E84057"
+                                    strokeWidth="30"
+                                  />
+                                  <circle
+                                    cx="100"
+                                    cy="100"
+                                    r="80"
+                                    fill="none"
+                                    stroke="#5383E8"
+                                    strokeWidth="30"
+                                    strokeDasharray={`${
+                                      (2 * Math.PI * 80 * currentWins) /
+                                      matchQty
+                                    } ${
+                                      2 *
+                                      Math.PI *
+                                      80 *
+                                      (1 - currentWins / matchQty)
+                                    }`}
+                                    strokeDashoffset={2 * Math.PI * 90 * 0.22}
+                                  />
+                                </svg>
+                              </div>
+                            </>
+                          ) : null}
+                        </div>
+
                         <div className="sum-info">
                           <div className="k-d-a">
-                            <span>{totalInfo.totalKills}</span>/
+                            <span>{totalInfo.totalKills.toFixed(1)} </span>/
                             <span className="death">
-                              {" "}
-                              {totalInfo.totalDeaths}{" "}
+                              {` ${totalInfo.totalDeaths.toFixed(1)} `}
                             </span>
-                            /<span> {totalInfo.totalAssists}</span>
+                            /<span> {totalInfo.totalAssists.toFixed(1)}</span>
                           </div>
                           <div className="sum-ratio">
                             {(
@@ -434,7 +489,13 @@ const SummonersContents = () => {
                           : null}
                       </ul>
                     </div>
-                    <div className="positions"></div>
+                    <div className="positions">
+                      <Positions
+                        positions={positions}
+                        setPositions={setPositions}
+                        currentMatch={currentMatch}
+                      />
+                    </div>
                   </>
                 ) : null}
               </div>
@@ -456,7 +517,9 @@ const SummonersContents = () => {
                 get matchData
               </button>
               <button onClick={() => setDebug((prev) => !prev)}>Debug</button>
-              <button onClick={() => console.log(byChampionArr)}>test</button>
+              <button onClick={() => console.log(currentWins / 15)}>
+                test
+              </button>
             </div>
           </div>
         </>

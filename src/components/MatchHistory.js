@@ -318,6 +318,7 @@ function MatchHistory({
     setTotalKillPart((prev) => [...prev, killPart]);
   }, []);
 
+  console.log((currentPlayer.kills + currentPlayer.assists) * 100);
   return (
     <>
       {debug ? (
@@ -407,10 +408,19 @@ function MatchHistory({
               <div className="stats">
                 <div className="p-kill">
                   킬관여{" "}
-                  {Math.round(
-                    ((currentPlayer.kills + currentPlayer.assists) /
-                      teamTotalKills) *
-                      100
+                  {currentPlayer.kills === 0 &&
+                  currentPlayer.assists === 0 &&
+                  teamTotalKills === 0 ? (
+                    0
+                  ) : (
+                    <>
+                      {" "}
+                      {Math.round(
+                        ((currentPlayer.kills + currentPlayer.assists) /
+                          teamTotalKills) *
+                          100
+                      )}
+                    </>
                   )}
                   %
                 </div>

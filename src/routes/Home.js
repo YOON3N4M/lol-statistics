@@ -1,9 +1,9 @@
 import React from "react";
 import Header from "../components/Header";
 import "../css/Home.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserName } from "../modules/sumonnersInfo";
+import { setUserName, clearAll } from "../modules/sumonnersInfo";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
@@ -32,6 +32,10 @@ function Home() {
       navigate(`summoners/kr/${username}`);
     }
   }
+
+  useEffect(() => {
+    dispatch(clearAll());
+  }, []);
 
   return (
     <>

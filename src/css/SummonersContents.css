@@ -182,12 +182,16 @@ li {
 .current-rank-header {
   background-color: white;
   margin-top: 8px;
-  border-radius: 4px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
   display: flex;
   justify-content: space-between;
   line-height: 35px;
   padding: 0 12px;
   font-size: 14px;
+}
+.current-rank-container {
+  margin-bottom: 8px;
 }
 .current-rank-contents {
   display: flex;
@@ -198,6 +202,8 @@ li {
   width: 308px;
   height: 97px;
   background-color: white;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 .current-tier-box {
   flex: 1 1 0%;
@@ -289,6 +295,8 @@ li {
   color: #758592;
   box-sizing: border-box;
   cursor: pointer;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 
 .match-history-tab {
@@ -316,7 +324,6 @@ li {
 .selected {
   font-weight: bold;
   display: block;
-  padding: 4px 12px;
   border-radius: 4px;
   font-size: 14px;
   background: #ecf2ff;
@@ -343,6 +350,7 @@ li {
 }
 .ratio-kda {
   display: flex;
+  margin-top: 12px;
 }
 .sum-info {
   margin-left: 32px;
@@ -369,10 +377,21 @@ li {
   color: #d31a45;
 }
 .chart {
+  position: relative;
   display: inline-block;
   width: 88px;
   height: 88px;
-  background-color: red;
+}
+.text {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 88px;
+  height: 88px;
+  line-height: 88px;
+  text-align: center;
+  font-size: 14px;
+  color: #5383e8;
 }
 .champions {
   width: 222px;
@@ -677,6 +696,95 @@ li {
   background-color: #d5e3ff;
 }
 
+.positions-ul {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 12px;
+}
+.positions-ul > li > img {
+  width: 16px;
+  margin-top: 8px;
+}
+.bar {
+  display: flex;
+  align-items: flex-end;
+  width: 16px;
+  height: 64px;
+  background-color: #dbe0e4;
+}
+.gauge {
+  background-color: #5383e8;
+  width: 16px;
+}
+.most-info {
+  display: table-cell;
+  width: 100px;
+  text-align: left;
+  vertical-align: middle;
+  padding-left: 8px;
+  box-sizing: border-box;
+}
+.cs {
+  margin-top: 2px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.most-face {
+  display: table-cell;
+  width: 44px;
+  text-align: right;
+  vertical-align: middle;
+}
+.most-face > img {
+  width: 32px;
+  border-radius: 50%;
+}
+.most-name {
+  color: #202d37;
+  font-weight: bold;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.most-stats {
+  display: table-cell;
+  width: 100px;
+  vertical-align: middle;
+  text-align: center;
+  box-sizing: border-box;
+}
+.most-kda {
+  font-weight: bold;
+  font-size: 12px;
+}
+.most-k-d-a {
+  font-size: 11px;
+  margin-top: 2px;
+}
+.played {
+  display: table-cell;
+  width: 88px;
+  padding-right: 0;
+  vertical-align: middle;
+  text-align: center;
+  box-sizing: border-box;
+  margin-top: 8px;
+  padding-right: 12px;
+}
+.most-winrate {
+  text-align: right;
+  font-size: 12px;
+}
+.most-gameqty {
+  text-align: right;
+  font-size: 11px;
+  margin-top: 2px;
+}
+/*
+
+
+*/
 .fadein {
   animation: fadein 0.3s ease;
   -moz-animation: fadein 0.3s ease;

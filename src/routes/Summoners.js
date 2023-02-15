@@ -1,10 +1,14 @@
-import Header from "../components/Header";
+import HeaderWithSearch from "../components/HeaderWithSearch";
 import SummonersContents from "../components/SummonersContents";
+import { useSelector } from "react-redux";
 
 function Summoners() {
+  const { summonersLoading } = useSelector((state) => ({
+    summonersLoading: state.summonersInfo.summonersLoading,
+  }));
   return (
     <>
-      <Header />
+      <HeaderWithSearch />
       <SummonersContents />
     </>
   );
