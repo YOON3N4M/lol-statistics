@@ -160,30 +160,30 @@ function Home() {
                 <div className="pro-lane">
                   <img src={jgIcon} />
                 </div>
-                <div className="pro-nick">Chovy</div>
-                <div className="pro-name">정지훈</div>
+                <div className="pro-nick">Peanut</div>
+                <div className="pro-name">한왕호</div>
               </div>{" "}
               <div onClick={() => onClick(gengMember.mid)} className="pro">
                 <div className="pro-lane">
                   <img src={midIcon} />
                 </div>
-                <div className="pro-nick">Payz</div>
-                <div className="pro-name">김수환</div>
+                <div className="pro-nick">Chovy</div>
+                <div className="pro-name">정지훈</div>
               </div>{" "}
               <div onClick={() => onClick(gengMember.adc)} className="pro">
                 <div className="pro-lane">
                   {" "}
                   <img src={adcIcon} />
                 </div>
-                <div className="pro-nick">Delight</div>
-                <div className="pro-name">유환중</div>
+                <div className="pro-nick">Payz</div>
+                <div className="pro-name">김수환</div>
               </div>{" "}
               <div onClick={() => onClick(gengMember.sup)} className="pro">
                 <div className="pro-lane">
                   <img src={supIcon} />
                 </div>
-                <div className="pro-nick">Peanut</div>
-                <div className="pro-name">한왕호</div>
+                <div className="pro-nick">Delight</div>
+                <div className="pro-name">유환중</div>
               </div>
             </div>
           </div>

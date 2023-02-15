@@ -13,20 +13,16 @@ function MatchHistory({
   }));
   const currentPlayer = match.info.participants.filter(
     (player) => player.summonerName === userName
-  )[0];
-
+  )[0]; // 참가자 10명중 검색된 플레이어를 추려냅니다.
   const teamA = match.info.participants.filter(
     (player) => player.teamId === currentPlayer.teamId
-  ); // 현재 검색된 플레이어의 팀
-  const teamTotalKills =
-    teamA[0].kills +
-    teamA[1].kills +
-    teamA[2].kills +
-    teamA[3].kills +
-    teamA[4].kills;
+  ); // 참가자 10명중 검색된 플레이어의 teamID와 같은 참가자의를 추려 teamA에 할당 teamID는 100,200
+  const teamTotalKills = teamA.reduce(function add(sum, item) {
+    return sum + item.kills;
+  }, 0); // teamA의 5명의 킬 수를 합산합니다.
   const killPart = Math.round(
     ((currentPlayer.kills + currentPlayer.assists) / teamTotalKills) * 100
-  );
+  ); // 검색된 플레이어의 킬 수와 어시스트 수를 더해 전체 팀 킬 수로 나눈 뒤, 100을 곱합니다 = 킬관여율
 
   function testFn() {
     console.log(teamTotalKills);
