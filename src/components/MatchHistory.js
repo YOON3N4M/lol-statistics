@@ -314,7 +314,6 @@ function MatchHistory({
     setTotalKillPart((prev) => [...prev, killPart]);
   }, []);
 
-  console.log((currentPlayer.kills + currentPlayer.assists) * 100);
   return (
     <>
       {debug ? (

@@ -69,6 +69,7 @@ const SummonersContents = () => {
   const [currentMatch, setCurrentMatch] = useState([]);
   const [byChampion, setByChampion] = useState({});
   const [byChampionArr, setByChampionArr] = useState([]);
+  const [err, setErr] = useState(false);
   const [totalInfo, setTotalInfo] = useState({
     totalKills: 0,
     totalDeaths: 0,
@@ -104,7 +105,8 @@ const SummonersContents = () => {
     dispatch(clearAll());
     const summonersRes = await fetch(
       `https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${params.summonersName}?api_key=${API_KEY}`
-    ); // summonerV4 기본 소환사 정보를 불러오는 API
+    ).catch(() => setErr(true)); // summonerV4 기본 소환사 정보를 불러오는 API
+
     const summonersResJson = await summonersRes.json();
     dispatch(setSummonersInfo(summonersResJson));
     dispatch(setUserName(summonersResJson.name)); // 이 부분이 없으면 대소문자를 구분 할 수 없음
@@ -274,6 +276,15 @@ const SummonersContents = () => {
 
   return (
     <>
+      {err ? (
+        <>
+          <div className="err-box">
+            <span>
+              검색 가능한 소환사가 아닙니다. 오타를 확인 후 다시 검색해주세요.
+            </span>
+          </div>
+        </>
+      ) : null}
       {summonersLoading === false && leagueLoading === false ? (
         <>
           {" "}

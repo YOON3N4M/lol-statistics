@@ -50,7 +50,7 @@ function MostChampion({ champion }) {
       });
     }
   }, []);
-  console.log(totalKda);
+
   return (
     <>
       {name !== "" ? (

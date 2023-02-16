@@ -33,7 +33,6 @@ function Home() {
       dispatch(setUserName(usernameRe));
       navigate(`summoners/kr/${usernameRe}`);
     } else {
-      console.log(username);
       dispatch(setUserName(username));
       navigate(`summoners/kr/${username}`);
     }
