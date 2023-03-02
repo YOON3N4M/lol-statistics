@@ -28,7 +28,8 @@ function Home() {
   function onSubmit(e) {
     e.preventDefault();
     // 닉네임이 두 글자일 경우 정상적인 소환사 조회가 불가능하여, 사이에 공백을 넣어서 처리함.
-    if (username.length === 2) {
+    if (username.trim() === "") {
+    } else if (username.length === 2) {
       const usernameRe = `${username[0]} ${username[1]}`;
       dispatch(setUserName(usernameRe));
       navigate(`summoners/kr/${usernameRe}`);
