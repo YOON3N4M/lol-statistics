@@ -1,5 +1,8 @@
 # lol-statistics
 배포 https://yoon3n4m.github.io/lol-statistics/
+
+#### firebase 연동 예정
+
 ### 활용 기술과 API
 html, css, javascript, ReactJS, React-router-dom, react-redux<br>
 riot API -- SUMONNERS-V4, LEAGUE-V4, MATCH-V5
