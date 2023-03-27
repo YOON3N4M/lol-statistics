@@ -1,7 +1,13 @@
 # lol-statistics
 배포 https://yoon3n4m.github.io/lol-statistics/
 
-#### firebase 연동 예정
+#### 🛠️해당 프로젝트는 리팩토링 중 입니다 
+아래의 저장소에서 기존의 잘못된 방식으로 구현된 여러 기능들을 새로운 방식으로 수정 중에 있습니다.<br>
+해당 앱의 배포버전은 정상 작동하므로 사용 가능합니다.
+
+https://github.com/YOON3N4M/lol-statistics-typescript
+
+<hr>
 
 ### 활용 기술과 API
 html, css, javascript, ReactJS, React-router-dom, react-redux<br>
